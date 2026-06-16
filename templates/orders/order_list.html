@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+</head>
+<body>
+
+    <h1>My Orders</h1>
+
+    {% for order in orders %}
+
+        <hr>
+
+        <h3>Order #{{ order.id }}</h3>
+
+        <p>Name: {{ order.full_name }}</p>
+
+        <p>City: {{ order.city }}</p>
+
+        <p>Date: {{ order.created_at }}</p>
+
+    {% empty %}
+
+        <p>No orders found.</p>
+
+    {% endfor %}
+
+</body>
+</html>

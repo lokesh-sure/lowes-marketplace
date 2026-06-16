@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Place Order</title>
+</head>
+<body>
+
+    <h1>Place Order</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <p>
+            <input
+                type="text"
+                name="full_name"
+                placeholder="Full Name"
+                required
+            >
+        </p>
+
+        <p>
+            <textarea
+                name="address"
+                placeholder="Address"
+                required
+            ></textarea>
+        </p>
+
+        <p>
+            <input
+                type="text"
+                name="city"
+                placeholder="City"
+                required
+            >
+        </p>
+
+        <button type="submit">
+            Place Order
+        </button>
+
+    </form>
+
+</body>
+</html>
