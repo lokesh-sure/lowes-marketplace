@@ -43,6 +43,8 @@ def place_order(request):
                 quantity=item.quantity
             )
 
+        cart_items.delete()
+
         return render(
             request,
             'orders/success.html'
