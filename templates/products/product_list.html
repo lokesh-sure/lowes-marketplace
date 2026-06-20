@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+</head>
+<body>
+
+<h2>Products</h2>
+
+<form method="GET">
+    <input
+        type="text"
+        name="q"
+        placeholder="Search products..."
+    >
+
+    <button type="submit">
+        Search
+    </button>
+</form>
+
+<hr>
+
+{% for product in products %}
+
+<h3>{{ product.name }}</h3>
+
+<p>Brand: {{ product.brand }}</p>
+
+<p>Price: ₹{{ product.price }}</p>
+
+<hr>
+
+{% endfor %}
+
+</body>
+</html>
