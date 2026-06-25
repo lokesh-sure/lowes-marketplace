@@ -23,7 +23,7 @@ def add_to_cart(request, product_id):
         cart_item.quantity += 1
         cart_item.save()
 
-    return redirect('admin:index')
+    return redirect('view_cart')
 
 
 @login_required

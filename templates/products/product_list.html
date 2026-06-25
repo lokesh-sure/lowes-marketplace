@@ -29,6 +29,12 @@
 
 <p>Price: ₹{{ product.price }}</p>
 
+<a href="{% url 'add_to_cart' product.id %}">
+    <button>
+        Add To Cart
+    </button>
+</a>
+
 <hr>
 
 {% endfor %}
