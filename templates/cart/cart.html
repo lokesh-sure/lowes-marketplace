@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>My Cart</title>
 </head>
+
 <body>
 
     <h1>My Cart</h1>
@@ -11,11 +13,17 @@
 
         <hr>
 
-        <h3>{{ item.product.name }}</h3>
+        <h3>
+            {{ item.product.name }}
+        </h3>
 
-        <p>Quantity: {{ item.quantity }}</p>
+        <p>
+            Quantity: {{ item.quantity }}
+        </p>
 
-        <p>Price: ₹{{ item.product.price }}</p>
+        <p>
+            Price: ₹{{ item.product.price }}
+        </p>
 
         <a href="/cart/remove/{{ item.id }}/">
             Remove Item
@@ -23,13 +31,34 @@
 
     {% empty %}
 
-        <p>Your cart is empty.</p>
+        <p>
+            Your cart is empty.
+        </p>
 
     {% endfor %}
 
     <hr>
 
-    <h2>Total: ₹{{ total }}</h2>
+    <h2>
+        Total: ₹{{ total }}
+    </h2>
+
+    {% if cart_items %}
+
+        <br>
+
+        <a href="{% url 'place_order' %}">
+
+            <button type="button">
+
+                Proceed To Checkout
+
+            </button>
+
+        </a>
+
+    {% endif %}
 
 </body>
+
 </html>
