@@ -1,7 +1,16 @@
 from django.urls import path
-from .views import add_to_cart, view_cart, remove_from_cart
+
+from .views import (
+    add_to_cart,
+    view_cart,
+    remove_from_cart,
+    increase_quantity,
+    decrease_quantity,
+)
+
 
 urlpatterns = [
+
     path(
         'add/<int:product_id>/',
         add_to_cart,
@@ -15,8 +24,21 @@ urlpatterns = [
     ),
 
     path(
+        'increase/<int:item_id>/',
+        increase_quantity,
+        name='increase_quantity'
+    ),
+
+    path(
+        'decrease/<int:item_id>/',
+        decrease_quantity,
+        name='decrease_quantity'
+    ),
+
+    path(
         'remove/<int:item_id>/',
         remove_from_cart,
         name='remove_from_cart'
     ),
+
 ]

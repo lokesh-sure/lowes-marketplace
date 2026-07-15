@@ -18,15 +18,41 @@
         </h3>
 
         <p>
-            Quantity: {{ item.quantity }}
+            <strong>Available Stock:</strong>
+            {{ item.product.stock }}
         </p>
 
         <p>
-            Price: ₹{{ item.product.price }}
+            <strong>Quantity:</strong>
+
+            <a href="{% url 'decrease_quantity' item.id %}">
+                <button type="button">
+                    −
+                </button>
+            </a>
+
+            &nbsp;
+
+            {{ item.quantity }}
+
+            &nbsp;
+
+            <a href="{% url 'increase_quantity' item.id %}">
+                <button type="button">
+                    +
+                </button>
+            </a>
         </p>
 
-        <a href="/cart/remove/{{ item.id }}/">
+        <p>
+            <strong>Price:</strong>
+            ₹{{ item.product.price }}
+        </p>
+
+        <a href="{% url 'remove_from_cart' item.id %}">
+
             Remove Item
+
         </a>
 
     {% empty %}
