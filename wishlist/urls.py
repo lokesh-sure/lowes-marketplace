@@ -3,7 +3,8 @@ from django.urls import path
 from .views import (
     wishlist,
     add_to_wishlist,
-    remove_from_wishlist
+    remove_from_wishlist,
+    move_to_cart,
 )
 
 urlpatterns = [
@@ -24,6 +25,12 @@ urlpatterns = [
         'remove/<int:product_id>/',
         remove_from_wishlist,
         name='remove_from_wishlist'
+    ),
+
+    path(
+        'move-to-cart/<int:product_id>/',
+        move_to_cart,
+        name='move_to_cart'
     ),
 
 ]

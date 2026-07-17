@@ -1,0 +1,17 @@
+[33m1292ea2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add stock management and cart quantity controls
+[33maccd0bf[m Add order total, status and order item details
+[33mf0f64be[m Created wishlist module
+[33mb4852c8[m Added product details page and multiple image gallery
+[33mff1027e[m Completed cart and order workflow testing
+[33m0285201[m Added authentication and product search
+[33m85f3cac[m Added user authentication system
+[33m63f64ee[m Cart auto clear after order
+[33m442df1b[m Cart and order integration completed
+[33md96ef9e[m Orders app and order placement completed
+[33m29ed8e9[m View cart, total calculation and remove cart item
+[33mc45cb5c[m Cart functionality implemented and tested
+[33m60893a7[m Cart add to cart logic and URL routing
+[33md5f549d[m Cart app and automatic cart creation
+[33mc4f10e2[m Products categories and product images module
+[33m180d5df[m Accounts app and user profile model
+[33mb4a2729[m Initial Django project setup
