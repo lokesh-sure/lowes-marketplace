@@ -1,24 +1,36 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 
-from .models import Product, ProductImage
+from .models import Product, ProductImage, Category
 
 
 def product_list(request):
 
-    query = request.GET.get('q')
+    query = request.GET.get('q', '').strip()
+    category_id = request.GET.get('category')
 
     products = Product.objects.all()
+    categories = Category.objects.all()
 
     if query:
-        products = Product.objects.filter(
-            name__icontains=query
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(brand__icontains=query)
+        )
+
+    if category_id:
+        products = products.filter(
+            category_id=category_id
         )
 
     return render(
         request,
         'products/product_list.html',
         {
-            'products': products
+            'products': products,
+            'categories': categories,
+            'query': query,
+            'selected_category': category_id,
         }
     )
 
