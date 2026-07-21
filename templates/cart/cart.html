@@ -1,90 +1,86 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>My Cart</title>
-</head>
+{% block title %}My Cart | MarketNest{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>My Cart</h1>
+<div class="container mt-5">
 
-    {% for item in cart_items %}
-
-        <hr>
-
-        <h3>
-            {{ item.product.name }}
-        </h3>
-
-        <p>
-            <strong>Available Stock:</strong>
-            {{ item.product.stock }}
-        </p>
-
-        <p>
-            <strong>Quantity:</strong>
-
-            <a href="{% url 'decrease_quantity' item.id %}">
-                <button type="button">
-                    −
-                </button>
-            </a>
-
-            &nbsp;
-
-            {{ item.quantity }}
-
-            &nbsp;
-
-            <a href="{% url 'increase_quantity' item.id %}">
-                <button type="button">
-                    +
-                </button>
-            </a>
-        </p>
-
-        <p>
-            <strong>Price:</strong>
-            ₹{{ item.product.price }}
-        </p>
-
-        <a href="{% url 'remove_from_cart' item.id %}">
-
-            Remove Item
-
-        </a>
-
-    {% empty %}
-
-        <p>
-            Your cart is empty.
-        </p>
-
-    {% endfor %}
-
-    <hr>
-
-    <h2>
-        Total: ₹{{ total }}
-    </h2>
+    <h1 class="mb-4">🛒 My Cart</h1>
 
     {% if cart_items %}
 
-        <br>
+        {% for item in cart_items %}
 
-        <a href="{% url 'place_order' %}">
+        <div class="card mb-3 shadow-sm">
 
-            <button type="button">
+            <div class="card-body">
 
-                Proceed To Checkout
+                <h4>{{ item.product.name }}</h4>
 
-            </button>
+                <p>
+                    <strong>Available Stock:</strong>
+                    {{ item.product.stock }}
+                </p>
+
+                <p>
+                    <strong>Quantity:</strong>
+
+                    <a href="{% url 'cart:decrease_quantity' item.id %}" class="btn btn-sm btn-danger">−</a>
+
+                    <span class="mx-3">{{ item.quantity }}</span>
+
+                    <a href="{% url 'cart:increase_quantity' item.id %}" class="btn btn-sm btn-success">+</a>
+                </p>
+
+                <p>
+                    <strong>Price:</strong>
+                    ₹{{ item.product.price }}
+                </p>
+
+                <p>
+                    <strong>Subtotal:</strong>
+                    ₹{{ item.product.price|floatformat:2 }}
+                    ×
+                    {{ item.quantity }}
+                    =
+                    ₹{{ item.product.price|floatformat:2 }}
+                </p>
+
+                <a href="{% url 'cart:remove_from_cart' item.id %}"
+                   class="btn btn-outline-danger">
+
+                    Remove Item
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <hr>
+
+        <h3>Total: ₹{{ total }}</h3>
+
+        <a href="{% url 'orders:place_order' %}"
+           class="btn btn-primary btn-lg">
+
+            Proceed To Checkout
 
         </a>
 
+    {% else %}
+
+        <div class="alert alert-info">
+
+            Your cart is empty.
+
+        </div>
+
     {% endif %}
 
-</body>
+</div>
 
-</html>
+{% endblock %}

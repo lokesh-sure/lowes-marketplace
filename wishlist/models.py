@@ -8,12 +8,14 @@ class Wishlist(models.Model):
 
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="wishlist_items"
     )
 
     product = models.ForeignKey(
         Product,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="wishlisted_by"
     )
 
     created_at = models.DateTimeField(
@@ -23,8 +25,8 @@ class Wishlist(models.Model):
     class Meta:
 
         unique_together = (
-            'user',
-            'product'
+            "user",
+            "product"
         )
 
     def __str__(self):

@@ -6,17 +6,18 @@ from products.models import Product
 class Order(models.Model):
 
     STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('Confirmed', 'Confirmed'),
-        ('Shipped', 'Shipped'),
-        ('Out for Delivery', 'Out for Delivery'),
-        ('Delivered', 'Delivered'),
-        ('Cancelled', 'Cancelled'),
+        ("Pending", "Pending"),
+        ("Confirmed", "Confirmed"),
+        ("Shipped", "Shipped"),
+        ("Out for Delivery", "Out for Delivery"),
+        ("Delivered", "Delivered"),
+        ("Cancelled", "Cancelled"),
     ]
 
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="orders"
     )
 
     full_name = models.CharField(
@@ -38,7 +39,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=30,
         choices=STATUS_CHOICES,
-        default='Pending'
+        default="Pending"
     )
 
     is_paid = models.BooleanField(
@@ -57,7 +58,8 @@ class OrderItem(models.Model):
 
     order = models.ForeignKey(
         Order,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="items"
     )
 
     product = models.ForeignKey(

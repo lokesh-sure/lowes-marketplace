@@ -5,6 +5,8 @@ from .views import (
     product_detail
 )
 
+app_name = "products"
+
 urlpatterns = [
 
     path(

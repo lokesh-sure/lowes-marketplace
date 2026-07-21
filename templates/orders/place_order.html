@@ -1,41 +1,107 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Place Order</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>Place Order</h1>
+{% block title %}Checkout | MarketNest{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.checkout-box{
+    width:500px;
+    margin:50px auto;
+    background:#fff;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.checkout-box h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#4f46e5;
+}
+
+.checkout-box input,
+.checkout-box textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+.checkout-box input:focus,
+.checkout-box textarea:focus{
+    border-color:#4f46e5;
+}
+
+.checkout-box textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.checkout-box button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#4f46e5;
+    color:#fff;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.checkout-box button:hover{
+    background:#3730a3;
+}
+
+.error{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="checkout-box">
+
+    <h2>Checkout</h2>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
 
     <form method="POST">
 
         {% csrf_token %}
 
-        <p>
-            <input
-                type="text"
-                name="full_name"
-                placeholder="Full Name"
-                required
-            >
-        </p>
+        <input
+            type="text"
+            name="full_name"
+            placeholder="Full Name"
+            required
+        >
 
-        <p>
-            <textarea
-                name="address"
-                placeholder="Address"
-                required
-            ></textarea>
-        </p>
+        <textarea
+            name="address"
+            placeholder="Delivery Address"
+            required
+        ></textarea>
 
-        <p>
-            <input
-                type="text"
-                name="city"
-                placeholder="City"
-                required
-            >
-        </p>
+        <input
+            type="text"
+            name="city"
+            placeholder="City"
+            required
+        >
 
         <button type="submit">
             Place Order
@@ -43,5 +109,6 @@
 
     </form>
 
-</body>
-</html>
+</div>
+
+{% endblock %}

@@ -1,28 +1,129 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h2>Register</h2>
+{% block title %}Register | MarketNest{% endblock %}
 
-<form method="POST">
-    {% csrf_token %}
+{% block extra_css %}
+<style>
 
-    <input type="text" name="username" placeholder="Username" required>
-    <br><br>
+.auth-box{
+    width:400px;
+    margin:60px auto;
+    background:#fff;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
 
-    <input type="email" name="email" placeholder="Email" required>
-    <br><br>
+.auth-box h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#4f46e5;
+}
 
-    <input type="password" name="password" placeholder="Password" required>
-    <br><br>
+.auth-box input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+    font-size:15px;
+}
 
-    <button type="submit">
-        Register
-    </button>
-</form>
+.auth-box input:focus{
+    border-color:#4f46e5;
+}
 
-</body>
-</html>
+.auth-box button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#4f46e5;
+    color:#fff;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.auth-box button:hover{
+    background:#3730a3;
+}
+
+.message{
+    margin-bottom:15px;
+    padding:10px;
+    border-radius:6px;
+    background:#eef2ff;
+    color:#3730a3;
+    text-align:center;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:18px;
+}
+
+.login-link a{
+    text-decoration:none;
+    color:#4f46e5;
+    font-weight:bold;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-box">
+
+    <h2>Create Account</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+        >
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            required
+        >
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+        >
+
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="{% url 'accounts:login' %}">
+            Login
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

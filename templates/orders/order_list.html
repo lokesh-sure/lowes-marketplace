@@ -1,108 +1,139 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>My Orders</title>
-</head>
+{% block title %}My Orders | MarketNest{% endblock %}
 
-<body>
+{% block extra_css %}
+<style>
 
-    <h1>My Orders</h1>
+.order-card{
+    background:#fff;
+    padding:25px;
+    margin-bottom:25px;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
 
-    {% for order in orders %}
+.order-card h2{
+    color:#4f46e5;
+    margin-bottom:15px;
+}
 
-        <hr>
+.order-info p{
+    margin:8px 0;
+}
 
-        <h2>
-            Order #{{ order.id }}
-        </h2>
+.product-box{
+    margin-top:15px;
+    padding:15px;
+    border:1px solid #eee;
+    border-radius:8px;
+    background:#fafafa;
+}
+
+.status{
+    font-weight:bold;
+    color:#2563eb;
+}
+
+.paid{
+    color:green;
+    font-weight:bold;
+}
+
+.unpaid{
+    color:red;
+    font-weight:bold;
+}
+
+.total{
+    margin-top:20px;
+    font-size:20px;
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.empty{
+    text-align:center;
+    font-size:20px;
+    margin-top:60px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h1>My Orders</h1>
+
+{% for order in orders %}
+
+<div class="order-card">
+
+    <h2>Order #{{ order.id }}</h2>
+
+    <div class="order-info">
+
+        <p><strong>Name:</strong> {{ order.full_name }}</p>
+
+        <p><strong>Address:</strong> {{ order.address }}</p>
+
+        <p><strong>City:</strong> {{ order.city }}</p>
+
+        <p><strong>Order Date:</strong> {{ order.created_at }}</p>
 
         <p>
-            <strong>Name:</strong>
-            {{ order.full_name }}
+            <strong>Status:</strong>
+            <span class="status">{{ order.status }}</span>
         </p>
 
         <p>
-            <strong>Address:</strong>
-            {{ order.address }}
-        </p>
-
-        <p>
-            <strong>City:</strong>
-            {{ order.city }}
-        </p>
-
-        <p>
-            <strong>Order Date:</strong>
-            {{ order.created_at }}
-        </p>
-
-        <p>
-            <strong>Order Status:</strong>
-            {{ order.status }}
-        </p>
-
-        <p>
-            <strong>Payment Status:</strong>
+            <strong>Payment:</strong>
 
             {% if order.is_paid %}
-
-                Paid
-
+                <span class="paid">Paid</span>
             {% else %}
-
-                Not Paid
-
+                <span class="unpaid">Not Paid</span>
             {% endif %}
         </p>
 
-        <h3>
-            Ordered Products
-        </h3>
+    </div>
 
-        {% for item in order.orderitem_set.all %}
+    <h3>Ordered Products</h3>
 
-            <div>
+    {% for item in order.items.all %}
 
-                <p>
-                    <strong>Product:</strong>
-                    {{ item.product.name }}
-                </p>
+        <div class="product-box">
 
-                <p>
-                    <strong>Quantity:</strong>
-                    {{ item.quantity }}
-                </p>
+            <p><strong>Product:</strong> {{ item.product.name }}</p>
 
-                <p>
-                    <strong>Price:</strong>
-                    ₹{{ item.product.price }}
-                </p>
+            <p><strong>Quantity:</strong> {{ item.quantity }}</p>
 
-            </div>
+            <p><strong>Price:</strong> ₹{{ item.product.price }}</p>
 
-            <br>
-
-        {% empty %}
-
-            <p>
-                No products found in this order.
-            </p>
-
-        {% endfor %}
-
-        <h3>
-            Total Amount: ₹{{ order.total_amount }}
-        </h3>
+        </div>
 
     {% empty %}
 
-        <p>
-            No orders found.
-        </p>
+        <p>No products found.</p>
 
     {% endfor %}
 
-</body>
+    <div class="total">
+        Total Amount : ₹{{ order.total_amount }}
+    </div>
 
-</html>
+</div>
+
+{% empty %}
+
+<div class="empty">
+
+    <h2>No Orders Found</h2>
+
+    <p>Start shopping and place your first order.</p>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

@@ -11,15 +11,13 @@ def order_list(request):
 
     orders = Order.objects.filter(
         user=request.user
-    ).order_by(
-        '-created_at'
-    )
+    ).order_by("-created_at")
 
     return render(
         request,
-        'orders/order_list.html',
+        "orders/order_list.html",
         {
-            'orders': orders
+            "orders": orders
         }
     )
 
@@ -29,64 +27,50 @@ def place_order(request):
 
     cart_items = CartItem.objects.filter(
         cart__user=request.user
-    ).select_related(
-        'product'
-    )
+    ).select_related("product")
 
-    if request.method == 'POST':
+    if request.method == "POST":
 
-        # Empty cart tho order create avvakunda prevent chesthundi
         if not cart_items.exists():
 
             return render(
                 request,
-                'orders/place_order.html',
+                "orders/place_order.html",
                 {
-                    'cart_items': cart_items,
-                    'error': 'Your cart is empty.'
+                    "cart_items": cart_items,
+                    "error": "Your cart is empty."
                 }
             )
 
-        # Order create cheyyakamundhu stock verify chesthundi
         for item in cart_items:
 
             if item.product.stock < item.quantity:
 
                 return render(
                     request,
-                    'orders/place_order.html',
+                    "orders/place_order.html",
                     {
-                        'cart_items': cart_items,
-                        'error': (
-                            f'Sorry, only '
-                            f'{item.product.stock} item(s) '
-                            f'available for '
-                            f'{item.product.name}.'
-                        )
+                        "cart_items": cart_items,
+                        "error": f"Only {item.product.stock} item(s) available for {item.product.name}."
                     }
                 )
 
-        # Order, order items and stock update anni
-        # successful ga ayithe matrame database lo save avutayi
         with transaction.atomic():
 
-            # Cart total calculate chesthundi
             total_amount = sum(
                 item.product.price * item.quantity
                 for item in cart_items
             )
 
-            # New order create chesthundi
             order = Order.objects.create(
                 user=request.user,
-                full_name=request.POST['full_name'],
-                address=request.POST['address'],
-                city=request.POST['city'],
+                full_name=request.POST.get("full_name"),
+                address=request.POST.get("address"),
+                city=request.POST.get("city"),
                 total_amount=total_amount,
-                status='Pending'
+                status="Pending",
             )
 
-            # Cart products ni order items ga save chesthundi
             for item in cart_items:
 
                 OrderItem.objects.create(
@@ -95,33 +79,23 @@ def place_order(request):
                     quantity=item.quantity
                 )
 
-                # Ordered quantity ni product stock nunchi decrease chesthundi
-                item.product.stock = (
-                    item.product.stock
-                    - item.quantity
-                )
+                item.product.stock -= item.quantity
+                item.product.save(update_fields=["stock"])
 
-                item.product.save(
-                    update_fields=[
-                        'stock'
-                    ]
-                )
-
-            # Order successful ayyaka cart clear chesthundi
             cart_items.delete()
 
         return render(
             request,
-            'orders/success.html',
+            "orders/success.html",
             {
-                'order': order
+                "order": order
             }
         )
 
     return render(
         request,
-        'orders/place_order.html',
+        "orders/place_order.html",
         {
-            'cart_items': cart_items
+            "cart_items": cart_items
         }
     )

@@ -1,17 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Order Success</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>🎉 Order Placed Successfully!</h1>
+{% block title %}Order Successful | MarketNest{% endblock %}
 
-    <p>Your order has been saved.</p>
+{% block extra_css %}
+<style>
 
-    <a href="/orders/">
+.success-box{
+    width:500px;
+    margin:60px auto;
+    background:#fff;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    text-align:center;
+}
+
+.success-icon{
+    font-size:60px;
+    margin-bottom:20px;
+}
+
+.success-box h2{
+    color:#16a34a;
+    margin-bottom:15px;
+}
+
+.success-box p{
+    margin-bottom:12px;
+    color:#555;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 24px;
+    background:#4f46e5;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#3730a3;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="success-box">
+
+    <div class="success-icon">
+        🎉
+    </div>
+
+    <h2>Order Placed Successfully!</h2>
+
+    <p>
+        Thank you for shopping with <strong>MarketNest</strong>.
+    </p>
+
+    <p>
+        <strong>Order ID:</strong> #{{ order.id }}
+    </p>
+
+    <p>
+        Your order has been received and is being processed.
+    </p>
+
+    <a href="{% url 'orders:order_list' %}" class="btn">
         View My Orders
     </a>
 
-</body>
-</html>
+</div>
+
+{% endblock %}
