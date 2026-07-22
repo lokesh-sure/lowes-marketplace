@@ -49,9 +49,7 @@ def view_cart(request):
 
     cart_items = CartItem.objects.filter(
         cart=cart
-    ).select_related(
-        "product"
-    )
+    ).select_related("product")
 
     total = sum(
         item.product.price * item.quantity

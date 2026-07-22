@@ -26,32 +26,35 @@
                 <p>
                     <strong>Quantity:</strong>
 
-                    <a href="{% url 'cart:decrease_quantity' item.id %}" class="btn btn-sm btn-danger">−</a>
+                    <a href="{% url 'cart:decrease_quantity' item.id %}"
+                       class="btn btn-sm btn-danger">
+                        −
+                    </a>
 
-                    <span class="mx-3">{{ item.quantity }}</span>
+                    <span class="mx-3 fw-bold">
+                        {{ item.quantity }}
+                    </span>
 
-                    <a href="{% url 'cart:increase_quantity' item.id %}" class="btn btn-sm btn-success">+</a>
+                    <a href="{% url 'cart:increase_quantity' item.id %}"
+                       class="btn btn-sm btn-success">
+                        +
+                    </a>
+
                 </p>
 
                 <p>
                     <strong>Price:</strong>
-                    ₹{{ item.product.price }}
+                    ₹{{ item.product.price|floatformat:2 }}
                 </p>
 
                 <p>
                     <strong>Subtotal:</strong>
-                    ₹{{ item.product.price|floatformat:2 }}
-                    ×
-                    {{ item.quantity }}
-                    =
-                    ₹{{ item.product.price|floatformat:2 }}
+                    ₹{{ item.subtotal|floatformat:2 }}
                 </p>
 
                 <a href="{% url 'cart:remove_from_cart' item.id %}"
                    class="btn btn-outline-danger">
-
                     Remove Item
-
                 </a>
 
             </div>
@@ -62,21 +65,26 @@
 
         <hr>
 
-        <h3>Total: ₹{{ total }}</h3>
+        <div class="d-flex justify-content-between align-items-center">
 
-        <a href="{% url 'orders:place_order' %}"
-           class="btn btn-primary btn-lg">
+            <h3>
+                Grand Total:
+                <span class="text-success">
+                    ₹{{ total|floatformat:2 }}
+                </span>
+            </h3>
 
-            Proceed To Checkout
+            <a href="{% url 'orders:place_order' %}"
+               class="btn btn-primary btn-lg">
+                Proceed To Checkout
+            </a>
 
-        </a>
+        </div>
 
     {% else %}
 
         <div class="alert alert-info">
-
             Your cart is empty.
-
         </div>
 
     {% endif %}
