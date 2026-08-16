@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block title %}Order Details | MarketNest{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.order-detail-container{
+    max-width:900px;
+    margin:40px auto;
+}
+
+.order-detail-card{
+    background:#fff;
+    padding:30px;
+    margin-bottom:25px;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
+
+.order-detail-card h1{
+    color:#4f46e5;
+    margin-bottom:25px;
+}
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    padding-bottom:20px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.order-id{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.status{
+    padding:8px 14px;
+    border-radius:20px;
+    background:#dbeafe;
+    color:#1d4ed8;
+    font-weight:bold;
+}
+
+.order-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:25px;
+}
+
+.info-box{
+    background:#f9fafb;
+    padding:15px;
+    border-radius:8px;
+}
+
+.info-box strong{
+    display:block;
+    margin-bottom:5px;
+    color:#374151;
+}
+
+.section-title{
+    margin-top:30px;
+    margin-bottom:15px;
+    color:#374151;
+}
+
+.product-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:18px;
+    margin-bottom:12px;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    background:#fafafa;
+}
+
+.product-info h3{
+    margin:0 0 8px;
+}
+
+.product-info p{
+    margin:5px 0;
+    color:#555;
+}
+
+.product-price{
+    font-weight:bold;
+    color:#16a34a;
+    white-space:nowrap;
+}
+
+.total-box{
+    margin-top:20px;
+    padding:20px;
+    border-top:2px solid #e5e7eb;
+    display:flex;
+    justify-content:space-between;
+    font-size:21px;
+    font-weight:bold;
+}
+
+.total-amount{
+    color:#16a34a;
+}
+
+.payment-paid{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.payment-unpaid{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 22px;
+    background:#4f46e5;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.back-btn:hover{
+    background:#3730a3;
+}
+
+.error-box{
+    max-width:600px;
+    margin:60px auto;
+    padding:30px;
+    text-align:center;
+    background:#fee2e2;
+    color:#b91c1c;
+    border-radius:12px;
+}
+
+@media(max-width:650px){
+
+    .order-detail-container{
+        margin:20px 15px;
+    }
+
+    .order-detail-card{
+        padding:20px;
+    }
+
+    .order-info{
+        grid-template-columns:1fr;
+    }
+
+    .product-item{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .product-price{
+        white-space:normal;
+    }
+
+    .total-box{
+        font-size:18px;
+    }
+
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="order-detail-container">
+
+    {% if error %}
+
+        <div class="error-box">
+
+            <h2>Order Not Found</h2>
+
+            <p>{{ error }}</p>
+
+            <a href="{% url 'orders:order_list' %}" class="back-btn">
+                ← Back to My Orders
+            </a>
+
+        </div>
+
+    {% else %}
+
+        <div class="order-detail-card">
+
+            <div class="order-header">
+
+                <div class="order-id">
+                    Order #{{ order.id }}
+                </div>
+
+                <div class="status">
+                    {{ order.status }}
+                </div>
+
+            </div>
+
+
+            <div class="order-info">
+
+                <div class="info-box">
+
+                    <strong>Order Date</strong>
+
+                    {{ order.created_at|date:"d M Y, h:i A" }}
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>Payment Status</strong>
+
+                    {% if order.is_paid %}
+
+                        <span class="payment-paid">
+                            Paid
+                        </span>
+
+                    {% else %}
+
+                        <span class="payment-unpaid">
+                            Not Paid
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>Customer Name</strong>
+
+                    {{ order.full_name }}
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>City</strong>
+
+                    {{ order.city }}
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>Delivery Address</strong>
+
+                    {{ order.address }}
+
+                </div>
+
+            </div>
+
+
+            <h2 class="section-title">
+                Ordered Products
+            </h2>
+
+
+            {% for item in order.items.all %}
+
+                <div class="product-item">
+
+                    <div class="product-info">
+
+                        <h3>
+                            {{ item.product.name }}
+                        </h3>
+
+                        <p>
+                            Quantity: {{ item.quantity }}
+                        </p>
+
+                        <p>
+                            Price: ₹{{ item.product.price }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="product-price">
+
+                        ₹{% widthratio item.product.price 1 item.quantity %}
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <p>No products found for this order.</p>
+
+            {% endfor %}
+
+
+            <div class="total-box">
+
+                <span>
+                    Total Amount
+                </span>
+
+                <span class="total-amount">
+                    ₹{{ order.total_amount }}
+                </span>
+
+            </div>
+
+
+            <a href="{% url 'orders:order_list' %}" class="back-btn">
+
+                ← Back to My Orders
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
