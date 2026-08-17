@@ -23,6 +23,35 @@ def order_list(request):
 
 
 @login_required
+def order_detail(request, pk):
+
+    order = Order.objects.filter(
+        id=pk,
+        user=request.user
+    ).prefetch_related(
+        "items__product"
+    ).first()
+
+    if not order:
+        return render(
+            request,
+            "orders/order_detail.html",
+            {
+                "error": "Order not found."
+            },
+            status=404
+        )
+
+    return render(
+        request,
+        "orders/order_detail.html",
+        {
+            "order": order
+        }
+    )
+
+
+@login_required
 def place_order(request):
 
     cart_items = CartItem.objects.filter(
