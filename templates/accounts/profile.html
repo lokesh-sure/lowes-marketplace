@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile | MarketNest{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.profile-container{
+    max-width:700px;
+    margin:50px auto;
+}
+
+.profile-card{
+    background:#fff;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.profile-card h2{
+    text-align:center;
+    color:#4f46e5;
+    margin-bottom:30px;
+}
+
+.profile-group{
+    margin-bottom:20px;
+}
+
+.profile-group label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+    color:#374151;
+}
+
+.profile-group input{
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+.profile-group input:focus{
+    border-color:#4f46e5;
+}
+
+.profile-button{
+    width:100%;
+    padding:13px;
+    border:none;
+    background:#4f46e5;
+    color:white;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.profile-button:hover{
+    background:#3730a3;
+}
+
+.username-box{
+    background:#f3f4f6;
+    padding:12px;
+    border-radius:8px;
+    color:#555;
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="profile-container">
+
+    <div class="profile-card">
+
+        <h2>My Profile</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="profile-group">
+
+                <label>Username</label>
+
+                <div class="username-box">
+                    {{ request.user.username }}
+                </div>
+
+            </div>
+
+
+            <div class="profile-group">
+
+                <label for="full_name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    value="{{ profile.full_name }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="profile-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ profile.email }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="profile-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value="{{ profile.phone }}"
+                    maxlength="15"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="profile-button"
+            >
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
