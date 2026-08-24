@@ -46,6 +46,21 @@ body{
     transform:translateY(-5px);
 }
 
+.stock-in{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.stock-out{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+.stock-low{
+    color:#d97706;
+    font-weight:bold;
+}
+
 </style>
 
 {% endblock %}
@@ -54,194 +69,254 @@ body{
 
 <div class="container mt-5">
 
-<div class="row">
+    <div class="row">
 
-<div class="col-md-2">
+        <!-- Product Thumbnails -->
 
-{% for img in product_images %}
+        <div class="col-md-2">
 
-<div class="thumbnail">
+            {% for img in product_images %}
 
-<img
-src="{{ img.image.url }}"
-onclick="changeImage('{{ img.image.url }}')">
+                <div class="thumbnail">
+
+                    <img
+                        src="{{ img.image.url }}"
+                        onclick="changeImage('{{ img.image.url }}')"
+                        alt="{{ product.name }}"
+                    >
+
+                </div>
+
+            {% empty %}
+
+                <p>No Images</p>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- Main Product Image -->
+
+        <div class="col-md-5">
+
+            <div class="main-image">
+
+                {% if product_images %}
+
+                    <img
+                        id="mainImage"
+                        src="{{ product_images.0.image.url }}"
+                        alt="{{ product.name }}"
+                    >
+
+                {% else %}
+
+                    <img
+                        id="mainImage"
+                        src="https://via.placeholder.com/600x450?text=No+Image"
+                        alt="No Image"
+                    >
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Product Information -->
+
+        <div class="col-md-5">
+
+            <h2>{{ product.name }}</h2>
+
+            <hr>
+
+            <h5>
+                <strong>Brand:</strong>
+                {{ product.brand }}
+            </h5>
+
+            <h3 class="text-success">
+                ₹{{ product.price }}
+            </h3>
+
+            <p>
+                {{ product.description }}
+            </p>
+
+
+            <!-- Stock Status -->
+
+            <p>
+
+                <strong>Availability:</strong>
+
+                {% if product.stock > 10 %}
+
+                    <span class="stock-in">
+                        In Stock
+                    </span>
+
+                {% elif product.stock > 0 %}
+
+                    <span class="stock-low">
+                        Only {{ product.stock }} left in stock
+                    </span>
+
+                {% else %}
+
+                    <span class="stock-out">
+                        Out of Stock
+                    </span>
+
+                {% endif %}
+
+            </p>
+
+
+            <p>
+                <strong>Available Stock:</strong>
+                {{ product.stock }}
+            </p>
+
+
+            <!-- Action Buttons -->
+
+            <div class="d-grid gap-2 mt-4">
+
+                {% if product.stock > 0 %}
+
+                    <a
+                        href="{% url 'cart:add_to_cart' product.id %}"
+                        class="btn btn-success"
+                    >
+                        🛒 Add To Cart
+                    </a>
+
+                {% else %}
+
+                    <button
+                        class="btn btn-secondary"
+                        disabled
+                    >
+                        Out of Stock
+                    </button>
+
+                {% endif %}
+
+
+                <a
+                    href="{% url 'wishlist:add_to_wishlist' product.id %}"
+                    class="btn btn-danger"
+                >
+                    ❤️ Add To Wishlist
+                </a>
+
+
+                <a
+                    href="{% url 'wishlist:wishlist' %}"
+                    class="btn btn-warning"
+                >
+                    💛 My Wishlist
+                </a>
+
+
+                <a
+                    href="{% url 'products:product_list' %}"
+                    class="btn btn-secondary"
+                >
+                    ← Back To Products
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <hr class="my-5">
+
+
+    <!-- Related Products -->
+
+    <h3 class="mb-4">
+        Related Products
+    </h3>
+
+    <div class="row">
+
+        {% for item in related_products %}
+
+            <div class="col-md-3 mb-4">
+
+                <div class="card related-card shadow">
+
+                    <div class="card-body text-center">
+
+                        <h5>
+                            {{ item.name }}
+                        </h5>
+
+                        <p>
+                            {{ item.brand }}
+                        </p>
+
+                        <h6 class="text-success">
+                            ₹{{ item.price }}
+                        </h6>
+
+                        {% if item.stock > 0 %}
+
+                            <p class="stock-in">
+                                In Stock
+                            </p>
+
+                        {% else %}
+
+                            <p class="stock-out">
+                                Out of Stock
+                            </p>
+
+                        {% endif %}
+
+                        <a
+                            href="{% url 'products:product_detail' item.id %}"
+                            class="btn btn-primary w-100"
+                        >
+                            View Product
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="col-12">
+
+                <p>
+                    No related products available.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
 
 </div>
 
-{% empty %}
-
-<p>No Images</p>
-
-{% endfor %}
-
-</div>
-
-<div class="col-md-5">
-
-<div class="main-image">
-
-{% if product_images %}
-
-<img
-id="mainImage"
-src="{{ product_images.0.image.url }}"
-alt="{{ product.name }}">
-
-{% else %}
-
-<img
-id="mainImage"
-src="https://via.placeholder.com/600x450?text=No+Image">
-
-{% endif %}
-
-</div>
-
-</div>
-
-<div class="col-md-5">
-
-<h2>{{ product.name }}</h2>
-
-<hr>
-
-<h5>
-
-<strong>Brand:</strong>
-
-{{ product.brand }}
-
-</h5>
-
-<h3 class="text-success">
-
-₹{{ product.price }}
-
-</h3>
-
-<p>
-
-{{ product.description }}
-
-</p>
-
-<p>
-
-<strong>Available Stock:</strong>
-
-{{ product.stock }}
-
-</p>
-
-<div class="d-grid gap-2 mt-4">
-
-<a
-href="{% url 'cart:add_to_cart' product.id %}"
-class="btn btn-success">
-
-🛒 Add To Cart
-
-</a>
-
-<a
-href="{% url 'wishlist:add_to_wishlist' product.id %}"
-class="btn btn-danger">
-
-❤️ Add To Wishlist
-
-</a>
-
-<a
-href="{% url 'wishlist:wishlist' %}"
-class="btn btn-warning">
-
-🤍 My Wishlist
-
-</a>
-
-<a
-href="{% url 'products:product_list' %}"
-class="btn btn-secondary">
-
-⬅ Back To Products
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<hr class="my-5">
-
-<h3 class="mb-4">
-
-Related Products
-
-</h3>
-
-<div class="row">
-
-{% for item in related_products %}
-
-<div class="col-md-3 mb-4">
-
-<div class="card related-card shadow">
-
-<div class="card-body text-center">
-
-<h5>
-
-{{ item.name }}
-
-</h5>
-
-<p>
-
-{{ item.brand }}
-
-</p>
-
-<h6 class="text-success">
-
-₹{{ item.price }}
-
-</h6>
-
-<a
-href="{% url 'products:product_detail' item.id %}"
-class="btn btn-primary w-100">
-
-View Product
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-{% empty %}
-
-<div class="col-12">
-
-<p>No related products available.</p>
-
-</div>
-
-{% endfor %}
-
-</div>
-
-</div>
 
 <script>
 
 function changeImage(image){
 
-document.getElementById("mainImage").src=image;
+    document.getElementById("mainImage").src = image;
 
 }
 
