@@ -14,43 +14,19 @@ from .models import UserProfile
 
 def generate_captcha():
     characters = string.ascii_uppercase + string.digits
-
-    return "".join(
-        random.choices(characters, k=6)
-    )
+    return "".join(random.choices(characters, k=6))
 
 
 def register_view(request):
 
     if request.method == "POST":
 
-        username = request.POST.get(
-            "username",
-            ""
-        ).strip()
+        username = request.POST.get("username", "").strip()
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "")
+        captcha_input = request.POST.get("captcha", "").strip().upper()
 
-        email = request.POST.get(
-            "email",
-            ""
-        ).strip()
-
-        password = request.POST.get(
-            "password",
-            ""
-        )
-
-        captcha_input = request.POST.get(
-            "captcha",
-            ""
-        ).strip().upper()
-
-        captcha_code = request.session.get(
-            "register_captcha"
-        )
-
-        # ==========================
-        # CAPTCHA VALIDATION
-        # ==========================
+        captcha_code = request.session.get("register_captcha")
 
         if not captcha_code or captcha_input != captcha_code:
 
@@ -65,31 +41,17 @@ def register_view(request):
                 request,
                 "accounts/register.html",
                 {
-                    "captcha_code": request.session[
-                        "register_captcha"
-                    ]
+                    "captcha_code": request.session["register_captcha"]
                 }
             )
 
-        # ==========================
-        # PASSWORD VALIDATION
-        # ==========================
-
         try:
-
-            validate_password(
-                password,
-                user=None
-            )
+            validate_password(password, user=None)
 
         except ValidationError as e:
 
             for error in e.messages:
-
-                messages.error(
-                    request,
-                    error
-                )
+                messages.error(request, error)
 
             request.session["register_captcha"] = generate_captcha()
 
@@ -97,19 +59,11 @@ def register_view(request):
                 request,
                 "accounts/register.html",
                 {
-                    "captcha_code": request.session[
-                        "register_captcha"
-                    ]
+                    "captcha_code": request.session["register_captcha"]
                 }
             )
 
-        # ==========================
-        # USERNAME VALIDATION
-        # ==========================
-
-        if User.objects.filter(
-            username=username
-        ).exists():
+        if User.objects.filter(username=username).exists():
 
             messages.error(
                 request,
@@ -122,19 +76,11 @@ def register_view(request):
                 request,
                 "accounts/register.html",
                 {
-                    "captcha_code": request.session[
-                        "register_captcha"
-                    ]
+                    "captcha_code": request.session["register_captcha"]
                 }
             )
 
-        # ==========================
-        # EMAIL VALIDATION
-        # ==========================
-
-        if User.objects.filter(
-            email=email
-        ).exists():
+        if User.objects.filter(email=email).exists():
 
             messages.error(
                 request,
@@ -147,15 +93,9 @@ def register_view(request):
                 request,
                 "accounts/register.html",
                 {
-                    "captcha_code": request.session[
-                        "register_captcha"
-                    ]
+                    "captcha_code": request.session["register_captcha"]
                 }
             )
-
-        # ==========================
-        # CREATE USER
-        # ==========================
 
         user = User.objects.create_user(
             username=username,
@@ -163,18 +103,12 @@ def register_view(request):
             password=password
         )
 
-        # ==========================
-        # CREATE USER PROFILE
-        # ==========================
-
         UserProfile.objects.create(
             user=user,
             full_name=username,
             email=email,
             phone=""
         )
-
-        # Remove CAPTCHA after successful registration
 
         request.session.pop(
             "register_captcha",
@@ -186,13 +120,7 @@ def register_view(request):
             "Registration successful. Please login."
         )
 
-        return redirect(
-            "accounts:login"
-        )
-
-    # ==========================
-    # GET REQUEST
-    # ==========================
+        return redirect("accounts:login")
 
     captcha_code = generate_captcha()
 
@@ -212,12 +140,26 @@ def login_view(request):
     if request.method == "POST":
 
         username = request.POST.get(
-            "username"
-        )
+            "username",
+            ""
+        ).strip()
 
         password = request.POST.get(
-            "password"
+            "password",
+            ""
         )
+
+        if not username or not password:
+
+            messages.error(
+                request,
+                "Username and password are required."
+            )
+
+            return render(
+                request,
+                "accounts/login.html"
+            )
 
         user = authenticate(
             request,
@@ -225,7 +167,7 @@ def login_view(request):
             password=password
         )
 
-        if user is not None:
+        if user is not None and user.is_active:
 
             login(
                 request,
@@ -237,9 +179,7 @@ def login_view(request):
                 f"Welcome, {user.username}!"
             )
 
-            return redirect(
-                "/cart/"
-            )
+            return redirect("/cart/")
 
         messages.error(
             request,
@@ -266,21 +206,9 @@ def profile_view(request):
 
     if request.method == "POST":
 
-        full_name = request.POST.get(
-            "full_name"
-        )
-
-        email = request.POST.get(
-            "email"
-        )
-
-        phone = request.POST.get(
-            "phone"
-        )
-
-        # ==========================
-        # USER EMAIL VALIDATION
-        # ==========================
+        full_name = request.POST.get("full_name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
 
         if User.objects.exclude(
             id=request.user.id
@@ -293,13 +221,7 @@ def profile_view(request):
                 "This email is already being used by another account."
             )
 
-            return redirect(
-                "accounts:profile"
-            )
-
-        # ==========================
-        # PROFILE EMAIL VALIDATION
-        # ==========================
+            return redirect("accounts:profile")
 
         if UserProfile.objects.exclude(
             user=request.user
@@ -312,25 +234,13 @@ def profile_view(request):
                 "This email is already being used by another profile."
             )
 
-            return redirect(
-                "accounts:profile"
-            )
-
-        # ==========================
-        # UPDATE USER
-        # ==========================
+            return redirect("accounts:profile")
 
         request.user.email = email
 
         request.user.save(
-            update_fields=[
-                "email"
-            ]
+            update_fields=["email"]
         )
-
-        # ==========================
-        # UPDATE PROFILE
-        # ==========================
 
         profile.full_name = full_name
         profile.email = email
@@ -343,9 +253,7 @@ def profile_view(request):
             "Profile updated successfully."
         )
 
-        return redirect(
-            "accounts:profile"
-        )
+        return redirect("accounts:profile")
 
     return render(
         request,
@@ -365,6 +273,4 @@ def logout_view(request):
         "Logged out successfully."
     )
 
-    return redirect(
-        "accounts:login"
-    )
+    return redirect("accounts:login")
