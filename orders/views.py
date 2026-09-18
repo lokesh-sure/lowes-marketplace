@@ -1,8 +1,14 @@
-from django.shortcuts import render
+from decimal import Decimal
+
+import razorpay
+
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.http import JsonResponse
+from django.shortcuts import render
 
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Payment
 from cart.models import CartItem
 
 
@@ -29,7 +35,8 @@ def order_detail(request, pk):
         id=pk,
         user=request.user
     ).prefetch_related(
-        "items__product"
+        "items__product",
+        "payments"
     ).first()
 
     if not order:
@@ -58,66 +65,109 @@ def place_order(request):
         cart__user=request.user
     ).select_related("product")
 
-    if request.method == "POST":
+    if not cart_items.exists():
 
-        if not cart_items.exists():
+        return render(
+            request,
+            "orders/place_order.html",
+            {
+                "cart_items": cart_items,
+                "error": "Your cart is empty."
+            }
+        )
+
+    for item in cart_items:
+
+        if item.product.stock < item.quantity:
 
             return render(
                 request,
                 "orders/place_order.html",
                 {
                     "cart_items": cart_items,
-                    "error": "Your cart is empty."
+                    "error": (
+                        f"Only {item.product.stock} item(s) available "
+                        f"for {item.product.name}."
+                    )
                 }
             )
 
-        for item in cart_items:
+    total_amount = sum(
+        (
+            item.product.price * item.quantity
+            for item in cart_items
+        ),
+        Decimal("0.00")
+    )
 
-            if item.product.stock < item.quantity:
+    if request.method == "POST":
 
-                return render(
-                    request,
-                    "orders/place_order.html",
-                    {
-                        "cart_items": cart_items,
-                        "error": f"Only {item.product.stock} item(s) available for {item.product.name}."
-                    }
-                )
+        full_name = request.POST.get("full_name", "").strip()
+        address = request.POST.get("address", "").strip()
+        city = request.POST.get("city", "").strip()
 
-        with transaction.atomic():
+        if not full_name or not address or not city:
 
-            total_amount = sum(
-                item.product.price * item.quantity
-                for item in cart_items
+            return render(
+                request,
+                "orders/place_order.html",
+                {
+                    "cart_items": cart_items,
+                    "error": "Please fill in all delivery details."
+                }
             )
 
-            order = Order.objects.create(
-                user=request.user,
-                full_name=request.POST.get("full_name"),
-                address=request.POST.get("address"),
-                city=request.POST.get("city"),
-                total_amount=total_amount,
-                status="Pending",
+        try:
+
+            razorpay_client = razorpay.Client(
+                auth=(
+                    settings.RAZORPAY_KEY_ID,
+                    settings.RAZORPAY_KEY_SECRET
+                )
             )
 
-            for item in cart_items:
+            razorpay_order = razorpay_client.order.create(
+                {
+                    "amount": int(total_amount * 100),
+                    "currency": "INR",
+                    "receipt": f"marketnest_{request.user.id}_{request.session.session_key or 'new'}",
+                }
+            )
 
-                OrderItem.objects.create(
-                    order=order,
-                    product=item.product,
-                    quantity=item.quantity
-                )
+        except Exception:
 
-                item.product.stock -= item.quantity
-                item.product.save(update_fields=["stock"])
+            return render(
+                request,
+                "orders/place_order.html",
+                {
+                    "cart_items": cart_items,
+                    "error": (
+                        "Unable to start payment. "
+                        "Please try again."
+                    )
+                },
+                status=500
+            )
 
-            cart_items.delete()
+        request.session["checkout_data"] = {
+            "full_name": full_name,
+            "address": address,
+            "city": city,
+        }
+
+        request.session["checkout_cart_total"] = str(total_amount)
 
         return render(
             request,
-            "orders/success.html",
+            "orders/place_order.html",
             {
-                "order": order
+                "cart_items": cart_items,
+                "razorpay_order_id": razorpay_order["id"],
+                "razorpay_key_id": settings.RAZORPAY_KEY_ID,
+                "razorpay_amount": int(total_amount * 100),
+                "full_name": full_name,
+                "address": address,
+                "city": city,
             }
         )
 
@@ -125,6 +175,28 @@ def place_order(request):
         request,
         "orders/place_order.html",
         {
-            "cart_items": cart_items
+            "cart_items": cart_items,
+            "total_amount": total_amount,
         }
+    )
+
+
+@login_required
+def verify_payment(request):
+
+    if request.method != "POST":
+        return JsonResponse(
+            {
+                "success": False,
+                "error": "Invalid request method."
+            },
+            status=405
+        )
+
+    return JsonResponse(
+        {
+            "success": False,
+            "error": "Payment verification is not implemented yet."
+        },
+        status=501
     )

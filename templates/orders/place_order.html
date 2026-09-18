@@ -29,6 +29,7 @@
     border-radius:8px;
     font-size:15px;
     outline:none;
+    box-sizing:border-box;
 }
 
 .checkout-box input:focus,
@@ -64,8 +65,19 @@
     margin-bottom:15px;
 }
 
+.amount-box{
+    background:#f3f4f6;
+    padding:14px;
+    border-radius:8px;
+    margin-bottom:20px;
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
 </style>
 {% endblock %}
+
 
 {% block content %}
 
@@ -79,7 +91,7 @@
         </div>
     {% endif %}
 
-    <form method="POST">
+    <form method="POST" id="checkout-form">
 
         {% csrf_token %}
 
@@ -87,6 +99,7 @@
             type="text"
             name="full_name"
             placeholder="Full Name"
+            value="{{ full_name|default:'' }}"
             required
         >
 
@@ -94,21 +107,111 @@
             name="address"
             placeholder="Delivery Address"
             required
-        ></textarea>
+        >{{ address|default:'' }}</textarea>
 
         <input
             type="text"
             name="city"
             placeholder="City"
+            value="{{ city|default:'' }}"
             required
         >
 
-        <button type="submit">
-            Place Order
-        </button>
+        {% if total_amount %}
+            <div class="amount-box">
+                Total: ₹{{ total_amount }}
+            </div>
+        {% endif %}
+
+        {% if razorpay_order_id %}
+
+            <div class="amount-box">
+                Pay ₹{{ total_amount }}
+            </div>
+
+            <button
+                type="button"
+                id="pay-button"
+            >
+                Pay with Razorpay
+            </button>
+
+        {% else %}
+
+            <button type="submit">
+                Continue to Payment
+            </button>
+
+        {% endif %}
 
     </form>
 
 </div>
+
+
+{% if razorpay_order_id %}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+document.getElementById("pay-button").addEventListener("click", function () {
+
+    const options = {
+
+        key: "{{ razorpay_key_id }}",
+
+        amount: "{{ razorpay_amount }}",
+
+        currency: "INR",
+
+        name: "MarketNest",
+
+        description: "MarketNest Order",
+
+        order_id: "{{ razorpay_order_id }}",
+
+        prefill: {
+            name: "{{ full_name|escapejs }}"
+        },
+
+        theme: {
+            color: "#4f46e5"
+        },
+
+        handler: function (response) {
+
+            console.log(
+                "Razorpay Payment Response:",
+                response
+            );
+
+            alert(
+                "Payment completed. Payment verification will be connected next."
+            );
+
+        },
+
+        modal: {
+            ondismiss: function () {
+
+                console.log(
+                    "Razorpay Checkout closed."
+                );
+
+            }
+        }
+
+    };
+
+    const razorpay = new Razorpay(options);
+
+    razorpay.open();
+
+});
+
+</script>
+
+{% endif %}
 
 {% endblock %}

@@ -4,6 +4,7 @@ from .views import (
     order_list,
     order_detail,
     place_order,
+    verify_payment,
 )
 
 app_name = "orders"
@@ -26,6 +27,12 @@ urlpatterns = [
         "place/",
         place_order,
         name="place_order"
+    ),
+
+    path(
+        "verify-payment/",
+        verify_payment,
+        name="verify_payment"
     ),
 
 ]
