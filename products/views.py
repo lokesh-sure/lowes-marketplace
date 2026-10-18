@@ -97,3 +97,19 @@ def product_detail(request, product_id):
             "related_products": related_products
         }
     )
+
+def home_view(request):
+    from django.shortcuts import render
+    from .models import Product, Category
+
+    categories = Category.objects.all().order_by("name")
+    products = Product.objects.all().order_by("id")[:8]
+
+    return render(
+        request,
+        "home.html",
+        {
+            "categories": categories,
+            "products": products,
+        },
+    )

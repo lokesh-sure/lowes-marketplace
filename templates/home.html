@@ -1,0 +1,207 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}MarketNest | Shop Everything You Love{% endblock %}
+
+{% block extra_css %}
+<style>
+    .mn-home, .mn-home * { box-sizing: border-box; }
+    .mn-home { background: #f5f6fc; color: #25213b; padding-bottom: 35px; }
+    .mn-hero {
+        margin: 28px auto; max-width: 1400px; padding: 65px 28px;
+        border-radius: 22px; text-align: center; color: white;
+        background: linear-gradient(125deg, #4338ca, #7c3aed 65%, #a855f7);
+        box-shadow: 0 14px 35px rgba(76, 29, 149, .18);
+    }
+    .mn-eyebrow {
+        display: inline-block; padding: 7px 13px; border-radius: 30px;
+        background: rgba(255,255,255,.17); font-size: 13px;
+        font-weight: 700; letter-spacing: 1px;
+    }
+    .mn-hero h1 { margin: 18px 0 12px; font-size: clamp(32px, 5vw, 52px); line-height: 1.15; }
+    .mn-hero p { max-width: 650px; margin: 0 auto 25px; font-size: 17px; line-height: 1.7; color: #f1edff; }
+    .mn-hero-btn {
+        display: inline-block; padding: 13px 25px; border-radius: 10px;
+        background: white; color: #5b21b6; text-decoration: none;
+        font-weight: 700; transition: .2s;
+    }
+    .mn-hero-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 18px #39207c55; }
+    .mn-benefits {
+        max-width: 1250px; margin: 0 auto 35px; padding: 0 22px;
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+    }
+    .mn-benefit {
+        background: white; border: 1px solid #eceaf5; border-radius: 12px;
+        padding: 18px; text-align: center; font-size: 14px; font-weight: 600;
+    }
+    .mn-section { max-width: 1350px; margin: 0 auto; padding: 22px; }
+    .mn-section-heading {
+        display: flex; align-items: end; justify-content: space-between;
+        gap: 15px; margin-bottom: 22px;
+    }
+    .mn-section-heading h2 { margin: 0; font-size: 27px; color: #251b49; }
+    .mn-section-heading p { margin: 6px 0 0; color: #77758a; font-size: 14px; }
+    .mn-view-all { color: #6538d8; text-decoration: none; font-weight: 700; font-size: 14px; }
+    .mn-category-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 15px;
+    }
+    .mn-category {
+        min-height: 95px; display: flex; align-items: center; justify-content: center;
+        padding: 18px; background: white; border: 1px solid #eceaf5;
+        border-radius: 14px; color: #4c1d95; text-decoration: none;
+        font-weight: 700; text-align: center; transition: .2s;
+    }
+    .mn-category:hover { border-color: #a78bfa; background: #f5f0ff; transform: translateY(-3px); }
+    .mn-product-grid {
+        display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
+    }
+    .mn-product {
+        min-width: 0; overflow: hidden; background: white; border: 1px solid #eceaf5;
+        border-radius: 15px; transition: .2s;
+    }
+    .mn-product:hover { transform: translateY(-4px); box-shadow: 0 12px 25px #21134b12; }
+    .mn-product-image {
+        height: 205px; display: flex; align-items: center; justify-content: center;
+        background: #f1effa; overflow: hidden;
+    }
+    .mn-product-image img { width: 100%; height: 100%; object-fit: contain; }
+    .mn-no-image { color: #9a91b3; font-size: 42px; }
+    .mn-product-body { padding: 17px; }
+    .mn-brand { color: #817a97; font-size: 12px; text-transform: uppercase; letter-spacing: .7px; }
+    .mn-product-title {
+        min-height: 44px; margin: 8px 0; font-size: 16px; line-height: 1.4;
+    }
+    .mn-product-title a { color: #28213e; text-decoration: none; }
+    .mn-product-title a:hover { color: #6538d8; }
+    .mn-price { color: #5b21b6; font-size: 21px; font-weight: 800; }
+    .mn-stock { margin: 7px 0 13px; color: #64748b; font-size: 12px; }
+    .mn-product-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .mn-product-actions a {
+        padding: 10px 5px; border-radius: 8px; text-align: center;
+        text-decoration: none; font-size: 12px; font-weight: 700;
+    }
+    .mn-details { background: #f0eaff; color: #5b21b6; }
+    .mn-add { background: #5b21b6; color: white; }
+    .mn-empty {
+        grid-column: 1 / -1; padding: 35px; background: white;
+        border-radius: 14px; text-align: center; color: #77758a;
+    }
+    @media(max-width: 950px) {
+        .mn-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .mn-hero { margin: 18px; }
+    }
+    @media(max-width: 560px) {
+        .mn-hero { padding: 45px 20px; }
+        .mn-benefits { grid-template-columns: 1fr; }
+        .mn-section { padding: 18px 14px; }
+        .mn-section-heading h2 { font-size: 22px; }
+        .mn-product-grid { gap: 12px; }
+        .mn-product-image { height: 150px; }
+        .mn-product-body { padding: 12px; }
+        .mn-product-title { font-size: 14px; }
+        .mn-price { font-size: 18px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mn-home">
+
+    <section class="mn-hero">
+        <span class="mn-eyebrow">WELCOME TO MARKETNEST</span>
+        <h1>Everything You Love.<br>All in One Place.</h1>
+        <p>
+            Discover electronics, appliances, fashion and everyday essentials
+            with a smooth and convenient shopping experience.
+        </p>
+        <a href="{% url 'products:product_list' %}" class="mn-hero-btn">
+            Explore Products &rarr;
+        </a>
+    </section>
+
+    <section class="mn-benefits">
+        <div class="mn-benefit">🚚 &nbsp; Convenient Shopping</div>
+        <div class="mn-benefit">🔒 &nbsp; Secure Customer Accounts</div>
+        <div class="mn-benefit">🛍️ &nbsp; A Variety of Products</div>
+    </section>
+
+    <section class="mn-section">
+        <div class="mn-section-heading">
+            <div>
+                <h2>Shop by Category</h2>
+                <p>Find something you need.</p>
+            </div>
+            <a href="{% url 'products:product_list' %}" class="mn-view-all">All Products &rarr;</a>
+        </div>
+
+        <div class="mn-category-grid">
+            {% for category in categories %}
+                <a class="mn-category"
+                   href="{% url 'products:product_list' %}?category={{ category.name|urlencode }}">
+                    {{ category.name }}
+                </a>
+            {% empty %}
+                <div class="mn-empty">Categories will appear here when available.</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="mn-section">
+        <div class="mn-section-heading">
+            <div>
+                <h2>Featured Products</h2>
+                <p>Explore products available in MarketNest.</p>
+            </div>
+            <a href="{% url 'products:product_list' %}" class="mn-view-all">View All &rarr;</a>
+        </div>
+
+        <div class="mn-product-grid">
+            {% for product in products %}
+                <article class="mn-product">
+                    <a href="/products/{{ product.id }}/" class="mn-product-image">
+                        {% with product.productimage_set.first as product_image %}
+                            {% if product_image and product_image.image %}
+                                <img src="{{ product_image.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <span class="mn-no-image" aria-hidden="true">&#128722;</span>
+                            {% endif %}
+                        {% endwith %}
+                    </a>
+
+                    <div class="mn-product-body">
+                        <div class="mn-brand">{{ product.brand|default:"MarketNest" }}</div>
+                        <h3 class="mn-product-title">
+                            <a href="/products/{{ product.id }}/">{{ product.name }}</a>
+                        </h3>
+                        <div class="mn-price">₹{{ product.price|floatformat:2 }}</div>
+
+                        <div class="mn-stock">
+                            {% if product.stock > 0 %}
+                                In stock
+                            {% else %}
+                                Currently unavailable
+                            {% endif %}
+                        </div>
+
+                        <div class="mn-product-actions">
+                            <a class="mn-details" href="/products/{{ product.id }}/">View Details</a>
+                            {% if product.stock > 0 %}
+                                <a class="mn-add" href="/cart/add/{{ product.id }}/">Add to Cart</a>
+                            {% else %}
+                                <a class="mn-details" href="/products/{{ product.id }}/">View Product</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="mn-empty">
+                    No products are available yet.
+                    <a href="{% url 'products:product_list' %}">Browse products</a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}
