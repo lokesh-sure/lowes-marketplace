@@ -1,207 +1,128 @@
-
-{% extends "base.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketNest</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">MarketNest</div>
+        <form action="{% url 'products:product_list' %}" method="get" style="display:contents">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="🔍 Search products..." aria-label="Search products">
+            <button type="submit">Search</button>
+        </form>
+        <a href="{% url 'accounts:profile' %}"><button class="cart-btn" type="button">👤 My Account</button></a>
+        <a href="{% url 'wishlist:wishlist' %}"><button class="cart-btn" type="button">❤️ Wishlist</button></a>
+        <a href="{% url 'cart:view_cart' %}"><button class="cart-btn" type="button">🛒 Cart</button></a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'accounts:logout' %}"><button class="cart-btn" type="button">Logout</button></a>
+        {% else %}
+            <a href="{% url 'accounts:login' %}"><button class="cart-btn" type="button">Login</button></a>
+            <a href="{% url 'accounts:register' %}"><button class="cart-btn" type="button">Register</button></a>
+        {% endif %}
+    </header>
 
-{% block title %}MarketNest | Shop Everything You Love{% endblock %}
+    <nav class="navbar">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'products:product_list' %}">Today's Deals</a>
+        <a href="{% url 'products:product_list' %}">Best Sellers</a>
+        <a href="{% url 'products:product_list' %}">New Arrivals</a>
+        <a href="{% url 'products:product_list' %}">Electronics</a>
+        <a href="{% url 'products:product_list' %}">Fashion</a>
+        <a href="{% url 'products:product_list' %}">Furniture</a>
+        <a href="{% url 'products:product_list' %}">Appliances</a>
+        <a href="{% url 'products:product_list' %}">Contact</a>
+    </nav>
 
-{% block extra_css %}
-<style>
-    .mn-home, .mn-home * { box-sizing: border-box; }
-    .mn-home { background: #f5f6fc; color: #25213b; padding-bottom: 35px; }
-    .mn-hero {
-        margin: 28px auto; max-width: 1400px; padding: 65px 28px;
-        border-radius: 22px; text-align: center; color: white;
-        background: linear-gradient(125deg, #4338ca, #7c3aed 65%, #a855f7);
-        box-shadow: 0 14px 35px rgba(76, 29, 149, .18);
-    }
-    .mn-eyebrow {
-        display: inline-block; padding: 7px 13px; border-radius: 30px;
-        background: rgba(255,255,255,.17); font-size: 13px;
-        font-weight: 700; letter-spacing: 1px;
-    }
-    .mn-hero h1 { margin: 18px 0 12px; font-size: clamp(32px, 5vw, 52px); line-height: 1.15; }
-    .mn-hero p { max-width: 650px; margin: 0 auto 25px; font-size: 17px; line-height: 1.7; color: #f1edff; }
-    .mn-hero-btn {
-        display: inline-block; padding: 13px 25px; border-radius: 10px;
-        background: white; color: #5b21b6; text-decoration: none;
-        font-weight: 700; transition: .2s;
-    }
-    .mn-hero-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 18px #39207c55; }
-    .mn-benefits {
-        max-width: 1250px; margin: 0 auto 35px; padding: 0 22px;
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
-    }
-    .mn-benefit {
-        background: white; border: 1px solid #eceaf5; border-radius: 12px;
-        padding: 18px; text-align: center; font-size: 14px; font-weight: 600;
-    }
-    .mn-section { max-width: 1350px; margin: 0 auto; padding: 22px; }
-    .mn-section-heading {
-        display: flex; align-items: end; justify-content: space-between;
-        gap: 15px; margin-bottom: 22px;
-    }
-    .mn-section-heading h2 { margin: 0; font-size: 27px; color: #251b49; }
-    .mn-section-heading p { margin: 6px 0 0; color: #77758a; font-size: 14px; }
-    .mn-view-all { color: #6538d8; text-decoration: none; font-weight: 700; font-size: 14px; }
-    .mn-category-grid {
-        display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 15px;
-    }
-    .mn-category {
-        min-height: 95px; display: flex; align-items: center; justify-content: center;
-        padding: 18px; background: white; border: 1px solid #eceaf5;
-        border-radius: 14px; color: #4c1d95; text-decoration: none;
-        font-weight: 700; text-align: center; transition: .2s;
-    }
-    .mn-category:hover { border-color: #a78bfa; background: #f5f0ff; transform: translateY(-3px); }
-    .mn-product-grid {
-        display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
-    }
-    .mn-product {
-        min-width: 0; overflow: hidden; background: white; border: 1px solid #eceaf5;
-        border-radius: 15px; transition: .2s;
-    }
-    .mn-product:hover { transform: translateY(-4px); box-shadow: 0 12px 25px #21134b12; }
-    .mn-product-image {
-        height: 205px; display: flex; align-items: center; justify-content: center;
-        background: #f1effa; overflow: hidden;
-    }
-    .mn-product-image img { width: 100%; height: 100%; object-fit: contain; }
-    .mn-no-image { color: #9a91b3; font-size: 42px; }
-    .mn-product-body { padding: 17px; }
-    .mn-brand { color: #817a97; font-size: 12px; text-transform: uppercase; letter-spacing: .7px; }
-    .mn-product-title {
-        min-height: 44px; margin: 8px 0; font-size: 16px; line-height: 1.4;
-    }
-    .mn-product-title a { color: #28213e; text-decoration: none; }
-    .mn-product-title a:hover { color: #6538d8; }
-    .mn-price { color: #5b21b6; font-size: 21px; font-weight: 800; }
-    .mn-stock { margin: 7px 0 13px; color: #64748b; font-size: 12px; }
-    .mn-product-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .mn-product-actions a {
-        padding: 10px 5px; border-radius: 8px; text-align: center;
-        text-decoration: none; font-size: 12px; font-weight: 700;
-    }
-    .mn-details { background: #f0eaff; color: #5b21b6; }
-    .mn-add { background: #5b21b6; color: white; }
-    .mn-empty {
-        grid-column: 1 / -1; padding: 35px; background: white;
-        border-radius: 14px; text-align: center; color: #77758a;
-    }
-    @media(max-width: 950px) {
-        .mn-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .mn-hero { margin: 18px; }
-    }
-    @media(max-width: 560px) {
-        .mn-hero { padding: 45px 20px; }
-        .mn-benefits { grid-template-columns: 1fr; }
-        .mn-section { padding: 18px 14px; }
-        .mn-section-heading h2 { font-size: 22px; }
-        .mn-product-grid { gap: 12px; }
-        .mn-product-image { height: 150px; }
-        .mn-product-body { padding: 12px; }
-        .mn-product-title { font-size: 14px; }
-        .mn-price { font-size: 18px; }
-    }
-</style>
-{% endblock %}
-
-{% block content %}
-<div class="mn-home">
-
-    <section class="mn-hero">
-        <span class="mn-eyebrow">WELCOME TO MARKETNEST</span>
-        <h1>Everything You Love.<br>All in One Place.</h1>
-        <p>
-            Discover electronics, appliances, fashion and everyday essentials
-            with a smooth and convenient shopping experience.
-        </p>
-        <a href="{% url 'products:product_list' %}" class="mn-hero-btn">
-            Explore Products &rarr;
-        </a>
+    <section class="hero">
+        <h1>🔥 Mega Sale 2026</h1>
+        <p>Electronics, Appliances &amp; Furniture Up To 50% OFF</p>
+        <p>🚚 Free Delivery | 🔒 Secure Payments | ⭐ Best Deals</p>
+        <a href="{% url 'products:product_list' %}"><button class="shop-btn" type="button">Shop Now</button></a>
+        <a href="{% url 'products:product_list' %}"><button class="shop-btn" type="button">Explore Deals</button></a>
     </section>
 
-    <section class="mn-benefits">
-        <div class="mn-benefit">🚚 &nbsp; Convenient Shopping</div>
-        <div class="mn-benefit">🔒 &nbsp; Secure Customer Accounts</div>
-        <div class="mn-benefit">🛍️ &nbsp; A Variety of Products</div>
-    </section>
-
-    <section class="mn-section">
-        <div class="mn-section-heading">
-            <div>
-                <h2>Shop by Category</h2>
-                <p>Find something you need.</p>
-            </div>
-            <a href="{% url 'products:product_list' %}" class="mn-view-all">All Products &rarr;</a>
-        </div>
-
-        <div class="mn-category-grid">
-            {% for category in categories %}
-                <a class="mn-category"
-                   href="{% url 'products:product_list' %}?category={{ category.name|urlencode }}">
-                    {{ category.name }}
-                </a>
-            {% empty %}
-                <div class="mn-empty">Categories will appear here when available.</div>
-            {% endfor %}
+    <section class="categories">
+        <h2>🛍 Shop By Category</h2>
+        <div class="category-list">
+            <a class="category" href="{% url 'products:product_list' %}">Appliances</a>
+            <a class="category" href="{% url 'products:product_list' %}">Electronics</a>
+            <a class="category" href="{% url 'products:product_list' %}">Furniture</a>
+            <a class="category" href="{% url 'products:product_list' %}">Fashion</a>
+            <a class="category" href="{% url 'products:product_list' %}">Kitchen</a>
+            <a class="category" href="{% url 'products:product_list' %}">Mobiles</a>
         </div>
     </section>
 
-    <section class="mn-section">
-        <div class="mn-section-heading">
-            <div>
-                <h2>Featured Products</h2>
-                <p>Explore products available in MarketNest.</p>
-            </div>
-            <a href="{% url 'products:product_list' %}" class="mn-view-all">View All &rarr;</a>
-        </div>
-
-        <div class="mn-product-grid">
+    <section class="products">
+        <h2>⭐ Featured Products</h2>
+        <div class="product-container">
             {% for product in products %}
-                <article class="mn-product">
-                    <a href="/products/{{ product.id }}/" class="mn-product-image">
+                <div class="product-card">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <span style="background:{% if forloop.first %}#f59e0b{% elif forloop.counter == 2 %}#2563eb{% else %}#7c3aed{% endif %};color:#fff;padding:4px 8px;border-radius:15px;font-size:12px;">
+                            {% if forloop.first %}🏆 Best Seller{% elif forloop.counter == 2 %}🔥 Trending{% else %}⭐ Featured{% endif %}
+                        </span>
+                        <a href="{% url 'wishlist:add_to_wishlist' product.id %}" style="font-size:22px;color:#ef4444;text-decoration:none" aria-label="Add {{ product.name }} to wishlist">♡</a>
+                    </div>
+                    <a href="{% url 'products:product_detail' product.id %}">
                         {% with product.productimage_set.first as product_image %}
                             {% if product_image and product_image.image %}
-                                <img src="{{ product_image.image.url }}" alt="{{ product.name }}">
+                                <img src="{{ product_image.image.url }}" class="product-image" alt="{{ product.name }}">
                             {% else %}
-                                <span class="mn-no-image" aria-hidden="true">&#128722;</span>
+                                <div class="product-image" aria-label="No product image available"></div>
                             {% endif %}
                         {% endwith %}
                     </a>
-
-                    <div class="mn-product-body">
-                        <div class="mn-brand">{{ product.brand|default:"MarketNest" }}</div>
-                        <h3 class="mn-product-title">
-                            <a href="/products/{{ product.id }}/">{{ product.name }}</a>
-                        </h3>
-                        <div class="mn-price">₹{{ product.price|floatformat:2 }}</div>
-
-                        <div class="mn-stock">
-                            {% if product.stock > 0 %}
-                                In stock
-                            {% else %}
-                                Currently unavailable
-                            {% endif %}
-                        </div>
-
-                        <div class="mn-product-actions">
-                            <a class="mn-details" href="/products/{{ product.id }}/">View Details</a>
-                            {% if product.stock > 0 %}
-                                <a class="mn-add" href="/cart/add/{{ product.id }}/">Add to Cart</a>
-                            {% else %}
-                                <a class="mn-details" href="/products/{{ product.id }}/">View Product</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-            {% empty %}
-                <div class="mn-empty">
-                    No products are available yet.
-                    <a href="{% url 'products:product_list' %}">Browse products</a>
+                    <h3><a href="{% url 'products:product_detail' product.id %}">{{ product.name }}</a></h3>
+                    <p>Brand: {{ product.brand|default:'MarketNest' }}</p>
+                    <p>⭐⭐⭐⭐⭐</p>
+                    <p style="color:green;font-weight:bold;">Featured</p>
+                    <p style="color:#16a34a;">{% if product.stock > 0 %}✅ In Stock{% else %}Currently unavailable{% endif %}</p>
+                    <p style="color:#2563eb;">🚚 Free Delivery</p>
+                    <p><strong>₹{{ product.price|floatformat:2 }}</strong></p>
+                    {% if product.stock > 0 %}
+                        <a href="{% url 'cart:add_to_cart' product.id %}"><button class="cart-btn" type="button">Add To Cart</button></a>
+                    {% else %}
+                        <a href="{% url 'products:product_detail' product.id %}"><button class="cart-btn" type="button">View Product</button></a>
+                    {% endif %}
                 </div>
+            {% empty %}
+                <p>No products are available yet.</p>
             {% endfor %}
         </div>
     </section>
 
-</div>
-{% endblock %}
+    <section class="categories">
+        <h2>⚡ Flash Sale</h2>
+        <div class="category-list">
+            <a class="category" href="{% url 'products:product_list' %}">Up To 50% Off Electronics</a>
+            <a class="category" href="{% url 'products:product_list' %}">Furniture Mega Sale</a>
+            <a class="category" href="{% url 'products:product_list' %}">Kitchen Appliances</a>
+            <a class="category" href="{% url 'products:product_list' %}">Fashion Offers</a>
+        </div>
+    </section>
+
+    <section class="categories">
+        <h2>📧 Newsletter</h2>
+        <div class="category-list">
+            <input type="email" placeholder="Enter your email" aria-label="Email address">
+            <button type="button">Subscribe</button>
+        </div>
+    </section>
+
+    <footer>
+        <p><strong>MarketNest</strong></p>
+        <p>
+            <a href="{% url 'accounts:profile' %}">My Account</a> |
+            <a href="{% url 'orders:order_list' %}">My Orders</a> |
+            <a href="{% url 'wishlist:wishlist' %}">Wishlist</a> |
+            <a href="{% url 'cart:view_cart' %}">Cart</a>
+        </p>
+        <p>© 2026 MarketNest. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
