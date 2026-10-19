@@ -247,6 +247,7 @@
             <div class="order-actions">
                 <a href="{% url 'orders:order_detail' order.id %}"><button class="cart-btn" type="button">Track Package</button></a>
                 <a href="{% url 'products:product_detail' item.product.id %}"><button class="cart-btn" type="button">View Product</button></a>
+                <a href="{% url 'orders:download_invoice' order.id %}"><button class="cart-btn" type="button">Download Invoice</button></a>
                 <a href="{% url 'pages:help' %}"><button class="cart-btn" type="button">Get Help</button></a>
             </div>
         </div>

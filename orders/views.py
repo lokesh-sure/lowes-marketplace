@@ -85,6 +85,18 @@ def order_success(request):
 
 
 @login_required
+def download_invoice(request, pk):
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items__product"),
+        id=pk,
+        user=request.user,
+    )
+    response = render(request, "orders/invoice.html", {"order": order})
+    response["Content-Disposition"] = f'attachment; filename="marketnest-order-{order.id}.html"'
+    return response
+
+
+@login_required
 def place_order(request):
     cart_items = CartItem.objects.filter(cart__user=request.user).select_related("product")
     if not cart_items.exists():

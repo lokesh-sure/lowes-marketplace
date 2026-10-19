@@ -6,6 +6,7 @@ from .views import (
     place_order,
     verify_payment,
     order_success,
+    download_invoice,
 )
 
 app_name = "orders"
@@ -16,6 +17,12 @@ urlpatterns = [
         "success/",
         order_success,
         name="success"
+    ),
+
+    path(
+        "<int:pk>/invoice/",
+        download_invoice,
+        name="download_invoice"
     ),
 
     path(

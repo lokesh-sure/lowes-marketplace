@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketNest Order Invoice #{{ order.id }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body { background: #f7f7fb; color: #222; font-family: Arial, sans-serif; padding: 24px; }
+        main { max-width: 850px; margin: 30px auto; padding: 32px; background: white; border-radius: 12px; }
+        .invoice-head, .invoice-total { display: flex; justify-content: space-between; gap: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
+        @media print { body { padding: 0; background: white; } main { margin: 0; max-width: none; } }
+    </style>
+</head>
+<body>
+<main>
+    <div class="invoice-head">
+        <div><h1>MarketNest</h1><p>Order Invoice</p></div>
+        <div><h2>Order #{{ order.id }}</h2><p>{{ order.created_at|date:"d M Y, h:i A" }}</p></div>
+    </div>
+    <h3>Delivery details</h3>
+    <p><strong>{{ order.full_name }}</strong><br>{{ order.address|linebreaksbr }}<br>{{ order.city }}</p>
+    <table>
+        <thead><tr><th>Product</th><th>Quantity</th><th>Unit price</th></tr></thead>
+        <tbody>
+        {% for item in order.items.all %}
+            <tr><td>{{ item.product.name }}</td><td>{{ item.quantity }}</td><td>₹{{ item.product.price|floatformat:2 }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="invoice-total"><strong>Payment status</strong><span>{% if order.is_paid %}Paid{% else %}Payment due{% endif %}</span></div>
+    <div class="invoice-total"><strong>Order status</strong><span>{{ order.status }}</span></div>
+    <div class="invoice-total"><strong>Total</strong><strong>₹{{ order.total_amount|floatformat:2 }}</strong></div>
+</main>
+</body>
+</html>
