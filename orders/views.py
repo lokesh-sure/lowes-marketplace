@@ -7,6 +7,7 @@ import razorpay
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -18,16 +19,26 @@ from cart.models import CartItem
 
 @login_required
 def order_list(request):
-
     orders = Order.objects.filter(
         user=request.user
     ).order_by("-created_at")
+    search_query = request.GET.get("q", "").strip()
+    if search_query:
+        if search_query.isdigit():
+            orders = orders.filter(id=int(search_query))
+        else:
+            orders = orders.filter(
+                Q(full_name__icontains=search_query)
+                | Q(city__icontains=search_query)
+                | Q(status__icontains=search_query)
+            )
 
     return render(
         request,
         "orders/order_list.html",
         {
-            "orders": orders
+            "orders": orders,
+            "search_query": search_query,
         }
     )
 

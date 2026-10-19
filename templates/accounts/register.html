@@ -1,205 +1,79 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Register | MarketNest{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - MarketNest</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
 
-{% block extra_css %}
+<body>
 
-<style>
+    <header>
+        <div class="logo">MarketNest</div>
 
-.auth-box{
-    width:400px;
-    margin:60px auto;
-    background:#fff;
-    padding:35px;
-    border-radius:12px;
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
-}
-
-.auth-box h2{
-    text-align:center;
-    margin-bottom:25px;
-    color:#4f46e5;
-}
-
-.auth-box input{
-    width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    outline:none;
-    font-size:15px;
-}
-
-.auth-box input:focus{
-    border-color:#4f46e5;
-}
-
-.auth-box button{
-    width:100%;
-    padding:12px;
-    border:none;
-    background:#4f46e5;
-    color:#fff;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.auth-box button:hover{
-    background:#3730a3;
-}
-
-.message{
-    margin-bottom:15px;
-    padding:10px;
-    border-radius:6px;
-    background:#eef2ff;
-    color:#3730a3;
-    text-align:center;
-}
-
-.captcha-box{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:15px;
-}
-
-.captcha-code{
-    flex:1;
-    padding:12px;
-    background:#f3f4f6;
-    border:2px dashed #4f46e5;
-    border-radius:8px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    letter-spacing:4px;
-    color:#312e81;
-    user-select:none;
-}
-
-.captcha-refresh{
-    padding:10px 12px;
-    background:#4f46e5;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.captcha-label{
-    font-weight:bold;
-    margin-bottom:8px;
-    display:block;
-}
-
-.login-link{
-    text-align:center;
-    margin-top:18px;
-}
-
-.login-link a{
-    text-decoration:none;
-    color:#4f46e5;
-    font-weight:bold;
-}
-
-</style>
-
-{% endblock %}
-
-{% block content %}
-
-<div class="auth-box">
-
-    <h2>Create Account</h2>
-
-    {% if messages %}
-
-        {% for message in messages %}
-
-            <div class="message">
-                {{ message }}
-            </div>
-
-        {% endfor %}
-
-    {% endif %}
+        <form action="/products/" method="get" style="display:contents"><input type="text" name="q" placeholder="🔍 Search products..."><button type="submit">Search</button></form>
 
 
-    <form method="POST">
+        <a href="/"><button class="cart-btn">Home</button></a>
+        <a href="/wishlist/"><button class="cart-btn">❤️ Wishlist</button></a>
+        <a href="/cart/"><button class="cart-btn">🛒 Cart</button></a>
+        <a href="/accounts/login/"><button class="cart-btn">Login</button></a>
+    </header>
 
-        {% csrf_token %}
+    <section class="product-details">
 
+        <div class="login-container">
 
-        <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            required
-        >
+            <div class="login-card">
 
+                <form method="post" action="/accounts/register/">
+                    {% csrf_token %}
+                    {% for message in messages %}<p role="alert" style="color:#b91c1c">{{ message }}</p>{% endfor %}
 
-        <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            required
-        >
+                    <h1>Create Account</h1>
 
+                    <input type="text" name="full_name" value="{{ full_name }}" placeholder="Full Name" required autocomplete="name">
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-        >
+                    <input type="email" name="email" value="{{ email }}" placeholder="Email Address" required autocomplete="email">
 
+                    <input type="password" name="password" placeholder="Password" required autocomplete="new-password">
 
-        <label class="captcha-label">
-            Enter CAPTCHA
-        </label>
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required autocomplete="new-password">
 
+                    <label style="font-size:14px;display:block;margin:15px 0;">
+                        <input type="checkbox" name="terms" value="accepted" required>
+                        I agree to the Terms & Conditions
+                    </label>
 
-        <div class="captcha-box">
+                    <button class="cart-btn" type="submit">Register</button>
 
-            <div class="captcha-code">
-                {{ captcha_code }}
+                    <p style="text-align:center;margin-top:20px;">
+                        Already have an account?
+                        <a href="/accounts/login/">Login</a>
+                    </p>
+
+                </form>
+
             </div>
 
         </div>
 
+    </section>
 
-        <input
-            type="text"
-            name="captcha"
-            placeholder="Enter the CAPTCHA shown above"
-            maxlength="6"
-            autocomplete="off"
-            required
-        >
+    <footer>
+        <p><strong>MarketNest</strong></p>
+        <p>
+            <a href="/pages/about/">About</a> |
+            <a href="/pages/privacy/">Privacy Policy</a> |
+            <a href="/pages/contact/">Contact</a> |
+            <a href="/pages/help/">Help Center</a>
+        </p>
+        <p>© 2026 MarketNest. All Rights Reserved.</p>
+    </footer>
 
+</body>
 
-        <button type="submit">
-            Register
-        </button>
-
-    </form>
-
-
-    <div class="login-link">
-
-        Already have an account?
-
-        <a href="{% url 'accounts:login' %}">
-            Login
-        </a>
-
-    </div>
-
-</div>
-
-{% endblock %}
+</html>

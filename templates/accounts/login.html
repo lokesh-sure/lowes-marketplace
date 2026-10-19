@@ -1,229 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
 
-{% extends "base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MarketNest</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
 
-{% block content %}
-<style>
-    .mn-login-page,
-    .mn-login-page * {
-        box-sizing: border-box;
-    }
+<body>
 
-    .mn-login-page {
-        min-height: 540px;
-        padding: 55px 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%);
-    }
+    <header>
+        <div class="logo">MarketNest</div>
 
-    .mn-login-card {
-        width: 100%;
-        max-width: 430px;
-        padding: 38px 36px;
-        background: #ffffff;
-        border: 1px solid #e8e5f5;
-        border-radius: 18px;
-        box-shadow: 0 12px 38px rgba(46, 30, 100, 0.12);
-    }
+        <form action="/products/" method="get" style="display:contents"><input type="text" name="q" placeholder="🔍 Search products..."><button type="submit">Search</button></form>
 
-    .mn-login-brand {
-        text-align: center;
-        margin-bottom: 28px;
-    }
 
-    .mn-login-icon {
-        width: 62px;
-        height: 62px;
-        margin: 0 auto 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 18px;
-        background: linear-gradient(135deg, #4f46e5, #9333ea);
-        color: #ffffff;
-        font-size: 28px;
-        font-weight: 700;
-    }
+        <a href="/"><button class="cart-btn">Home</button></a>
+        <a href="/wishlist/"><button class="cart-btn">❤️ Wishlist</button></a>
+        <a href="/cart/"><button class="cart-btn">🛒 Cart</button></a>
+        <a href="/accounts/register/"><button class="cart-btn">Register</button></a>
+    </header>
 
-    .mn-login-brand h1 {
-        margin: 0 0 8px;
-        color: #17152b;
-        font-size: 28px;
-        font-weight: 750;
-    }
+    <section class="product-details">
 
-    .mn-login-brand p {
-        margin: 0;
-        color: #77758a;
-        font-size: 14px;
-    }
+        <div class="login-container">
 
-    .mn-login-error {
-        margin-bottom: 18px;
-        padding: 12px 14px;
-        border-radius: 9px;
-        background: #fff1f2;
-        color: #be123c;
-        font-size: 14px;
-    }
+            <div class="login-card">
 
-    .mn-login-field {
-        margin-bottom: 20px;
-    }
+                <form method="post" action="/accounts/login/">
+                    {% csrf_token %}
+                    {% for message in messages %}<p role="alert" style="color:#b91c1c">{{ message }}</p>{% endfor %}
 
-    .mn-login-field label {
-        display: block;
-        margin-bottom: 8px;
-        color: #29263d;
-        font-size: 14px;
-        font-weight: 600;
-    }
+                    <h1>Login</h1>
 
-    .mn-login-field input {
-        display: block;
-        width: 100%;
-        height: 48px;
-        padding: 0 14px;
-        border: 1px solid #dcd9e8;
-        border-radius: 9px;
-        outline: none;
-        background: #ffffff;
-        color: #211e35;
-        font-size: 15px;
-        transition: border-color 0.2s, box-shadow 0.2s;
-    }
+                    <input type="email" name="email" value="{{ email }}" placeholder="Enter Email" required autocomplete="email">
 
-    .mn-login-field input:focus {
-        border-color: #6d4aff;
-        box-shadow: 0 0 0 3px rgba(109, 74, 255, 0.13);
-    }
+                    <input type="password" name="password" placeholder="Enter Password" required
+                        autocomplete="current-password">
 
-    .mn-login-forgot {
-        display: block;
-        margin-top: -5px;
-        margin-bottom: 22px;
-        text-align: right;
-        color: #6538d8;
-        font-size: 13px;
-        font-weight: 600;
-        text-decoration: none;
-    }
+                    <button class="cart-btn" type="submit">Login</button>
 
-    .mn-login-forgot:hover,
-    .mn-login-register a:hover {
-        text-decoration: underline;
-    }
+                    <p style="text-align:right;margin:15px 0;">
+                        <a href="/accounts/password-reset/" style="text-decoration:none;color:#5B21B6;">Forgot Password?</a>
+                    </p>
 
-    .mn-login-submit {
-        width: 100%;
-        min-height: 49px;
-        border: none;
-        border-radius: 9px;
-        background: linear-gradient(100deg, #5145e5, #842ee8);
-        color: #ffffff;
-        font-size: 16px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
+                    <p style="text-align:center;">
+                        Don't have an account?
+                        <a href="/accounts/register/">Register</a>
+                    </p>
 
-    .mn-login-submit:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 7px 18px rgba(100, 55, 220, 0.25);
-    }
+                </form>
 
-    .mn-login-register {
-        margin: 24px 0 0;
-        padding-top: 20px;
-        border-top: 1px solid #efedf5;
-        text-align: center;
-        color: #77758a;
-        font-size: 14px;
-    }
+            </div>
 
-    .mn-login-register a {
-        margin-left: 4px;
-        color: #6538d8;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    @media (max-width: 480px) {
-        .mn-login-page {
-            min-height: 500px;
-            padding: 35px 15px;
-        }
-
-        .mn-login-card {
-            padding: 30px 22px;
-        }
-
-        .mn-login-brand h1 {
-            font-size: 25px;
-        }
-    }
-</style>
-
-<section class="mn-login-page">
-    <div class="mn-login-card">
-
-        <div class="mn-login-brand">
-            <div class="mn-login-icon">M</div>
-            <h1>Welcome Back</h1>
-            <p>Sign in to continue shopping at MarketNest</p>
         </div>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="mn-login-error" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+    </section>
 
-        <form method="post" action="{% url 'accounts:login' %}">
-            {% csrf_token %}
-
-            <div class="mn-login-field">
-                <label for="username">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    autocomplete="username"
-                    required
-                >
-            </div>
-
-            <div class="mn-login-field">
-                <label for="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    autocomplete="current-password"
-                    required
-                >
-            </div>
-
-            <a
-                class="mn-login-forgot"
-                href="{% url 'accounts:password_reset' %}"
-            >Forgot Password?</a>
-
-            <button type="submit" class="mn-login-submit">
-                Sign In
-            </button>
-        </form>
-
-        <p class="mn-login-register">
-            Don't have an account?
-            <a href="{% url 'accounts:register' %}">Create Account</a>
+    <footer>
+        <p><strong>MarketNest</strong></p>
+        <p>
+            <a href="/pages/about/">About</a> |
+            <a href="/pages/privacy/">Privacy Policy</a> |
+            <a href="/pages/contact/">Contact</a> |
+            <a href="/pages/help/">Help Center</a>
         </p>
+        <p>© 2026 MarketNest. All Rights Reserved.</p>
+    </footer>
 
-    </div>
-</section>
-{% endblock %}
+</body>
+
+</html>
