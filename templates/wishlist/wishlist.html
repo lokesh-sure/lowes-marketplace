@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - MarketNest</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">MarketNest</div>
+
+        <form action="/products/" method="get" style="display:contents"><input type="text" name="q" placeholder="🔍 Search products..."><button type="submit">Search</button></form>
+
+
+        <a href="/"><button class="cart-btn">Home</button></a>
+        <a href="/cart/"><button class="cart-btn">🛒 Cart</button></a>
+        <a href="/accounts/login/"><button class="cart-btn">Login</button></a>
+        <a href="/accounts/register/"><button class="cart-btn">Register</button></a>
+    </header>
+
+    <main class="cart-page">
+
+        <h1>❤️ My Wishlist</h1>
+
+        {% for item in items %}
+        <div class="cart-item">
+            {% with item.product.productimage_set.first as product_image %}
+            {% if product_image and product_image.image %}<img src="{{ product_image.image.url }}" class="cart-product-image" alt="{{ item.product.name }}">{% else %}<div class="cart-product-image" role="img" aria-label="No product image available"></div>{% endif %}
+            {% endwith %}
+            <div>
+                <h2>{{ item.product.name }}</h2>
+                <p>Brand: {{ item.product.brand|default:'MarketNest' }}</p>
+                <h2>₹{{ item.product.price|floatformat:2 }}</h2>
+                <p style="color:#16A34A;font-weight:bold;">{% if item.product.stock > 0 %}✓ In Stock{% else %}Currently unavailable{% endif %}</p>
+                <br>
+                <a href="{% url 'products:product_detail' item.product.id %}"><button class="cart-btn" type="button">View Product</button></a>
+                {% if item.product.stock > 0 %}<a href="{% url 'wishlist:move_to_cart' item.product.id %}"><button class="cart-btn" type="button">Move to Cart</button></a>{% endif %}
+                <a href="{% url 'wishlist:remove_from_wishlist' item.product.id %}"><button class="remove-btn" type="button">Remove</button></a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="cart-item"><div><h2>Your wishlist is empty</h2><p>Browse products and save your favorites here.</p><a href="/products/"><button class="cart-btn" type="button">Browse Products</button></a></div></div>
+        {% endfor %}
+
+    </main>
+
+    <footer>
+        <p><strong>MarketNest</strong></p>
+        <p>
+            <a href="/pages/about/">About</a> |
+            <a href="/pages/privacy/">Privacy Policy</a> |
+            <a href="/pages/contact/">Contact</a> |
+            <a href="/pages/help/">Help Center</a>
+        </p>
+        <p>© 2026 MarketNest. All Rights Reserved.</p>
+    </footer>
+
+</body>
+
+</html>

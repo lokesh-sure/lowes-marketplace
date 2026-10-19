@@ -5,11 +5,18 @@ from .views import (
     order_detail,
     place_order,
     verify_payment,
+    order_success,
 )
 
 app_name = "orders"
 
 urlpatterns = [
+
+    path(
+        "success/",
+        order_success,
+        name="success"
+    ),
 
     path(
         "",

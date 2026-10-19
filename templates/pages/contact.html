@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - MarketNest</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">MarketNest</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/wishlist/">Wishlist ❤️</a>
+        <a href="/cart/">Cart 🛒</a>
+        <a href="/accounts/login/">Login</a>
+        <a href="/accounts/register/">Register</a>
+    </nav>
+</header>
+
+<section class="cart-page">
+
+    <h1>Contact Us</h1>
+
+    <p>We'd love to hear from you.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <input type="text" name="full_name" placeholder="Full Name" required>
+
+        <input type="email" name="email" placeholder="Email Address" required>
+
+        <input type="tel" name="phone" placeholder="Mobile Number">
+
+        <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+
+        <button class="cart-btn" type="submit">Send Message</button>
+
+    </form>
+
+    <br>
+
+    <h3>Customer Support</h3>
+
+    <p>📧 support@marketnest.com</p>
+    <p>📞 +91 98765 43210</p>
+    <p>📍 Vijayawada, Andhra Pradesh, India</p>
+
+</section>
+
+<footer>
+    <p>© 2026 MarketNest. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
+

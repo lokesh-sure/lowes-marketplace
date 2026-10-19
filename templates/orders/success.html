@@ -1,79 +1,58 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Success - MarketNest</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
 
-{% block title %}Order Successful | MarketNest{% endblock %}
+<body>
 
-{% block extra_css %}
-<style>
+<header>
+    <div class="logo">MarketNest</div>
 
-.success-box{
-    width:500px;
-    margin:60px auto;
-    background:#fff;
-    padding:40px;
-    border-radius:12px;
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
-    text-align:center;
-}
+    <form action="/products/" method="get" style="display:contents"><input type="text" name="q" placeholder="🔍 Search products..."><button type="submit">Search</button></form>
 
-.success-icon{
-    font-size:60px;
-    margin-bottom:20px;
-}
 
-.success-box h2{
-    color:#16a34a;
-    margin-bottom:15px;
-}
+    <a href="/"><button class="cart-btn">Home</button></a>
+    <a href="/wishlist/"><button class="cart-btn">❤️ Wishlist</button></a>
+    <a href="/cart/"><button class="cart-btn">🛒 Cart</button></a>
+    <a href="/accounts/login/"><button class="cart-btn">Login</button></a>
+    <a href="/accounts/register/"><button class="cart-btn">Register</button></a>
+</header>
 
-.success-box p{
-    margin-bottom:12px;
-    color:#555;
-}
+<section class="product-details" style="text-align:center;padding:60px;">
 
-.btn{
-    display:inline-block;
-    margin-top:20px;
-    padding:12px 24px;
-    background:#4f46e5;
-    color:#fff;
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
-}
+    <h1 style="color:green;">🎉 Order Placed Successfully!</h1>
 
-.btn:hover{
-    background:#3730a3;
-}
+    <h2>Thank You for Shopping with MarketNest</h2>
 
-</style>
-{% endblock %}
+    <p>Your order has been received successfully.</p>
 
-{% block content %}
+    <p>📦 Estimated Delivery: <strong>3–5 Business Days</strong></p>
 
-<div class="success-box">
+    <p>📦 Your order details are available in My Orders.</p><p><a href="/orders/">View My Orders</a></p>
 
-    <div class="success-icon">
-        🎉
-    </div>
+    <br>
 
-    <h2>Order Placed Successfully!</h2>
-
-    <p>
-        Thank you for shopping with <strong>MarketNest</strong>.
-    </p>
-
-    <p>
-        <strong>Order ID:</strong> #{{ order.id }}
-    </p>
-
-    <p>
-        Your order has been received and is being processed.
-    </p>
-
-    <a href="{% url 'orders:order_list' %}" class="btn">
-        View My Orders
+    <a href="/">
+        <button class="shop-btn">Continue Shopping</button>
     </a>
 
-</div>
+</section>
 
-{% endblock %}
+<footer>
+    <p><strong>MarketNest</strong></p>
+    <p>
+        <a href="/pages/about/">About</a> |
+        <a href="/pages/privacy/">Privacy Policy</a> |
+        <a href="/pages/contact/">Contact</a> |
+        <a href="/pages/help/">Help Center</a>
+    </p>
+    <p>© 2026 MarketNest. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

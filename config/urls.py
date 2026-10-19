@@ -4,6 +4,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from products.views import home_view
+from pages.views import addresses
 
 
 urlpatterns = [
@@ -26,6 +27,10 @@ urlpatterns = [
 
     # Orders
     path("orders/", include("orders.urls")),
+
+    # Original storefront information pages
+    path("pages/", include("pages.urls")),
+    path("addresses/", addresses, name="saved_addresses"),
 ]
 
 

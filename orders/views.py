@@ -6,7 +6,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 
 from .models import Order, OrderItem, Payment
 from cart.models import CartItem
@@ -56,6 +57,17 @@ def order_detail(request, pk):
             "order": order
         }
     )
+
+
+@login_required
+def order_success(request):
+    order_id = request.session.get("last_order_id")
+    if not order_id:
+        messages.error(request, "There is no completed order to show yet.")
+        return redirect("orders:order_list")
+
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, "orders/success.html", {"order": order})
 
 
 @login_required
