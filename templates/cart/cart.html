@@ -1,94 +1,148 @@
-{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart - MarketNest</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        .cart-page { max-width: 1200px; margin: 35px auto; padding: 0 20px }
+        .cart-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 25px }
+        .cart-box, .summary-box { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 8px 22px rgba(0, 0, 0, .08) }
+        .cart-item { display: grid; grid-template-columns: 180px 1fr; gap: 25px; padding: 20px 0; border-bottom: 1px solid #e5e7eb }
+        .cart-product-image { width: 180px; height: 180px; object-fit: contain; border: 1px solid #e5e7eb; border-radius: 12px }
+        .stock { color: #16a34a; font-weight: bold }
+        .old-price { text-decoration: line-through; color: #777; margin-left: 8px }
+        .quantity { display: flex; align-items: center; gap: 10px; margin: 15px 0 }
+        .quantity button { width: 38px; height: 38px; padding: 0 }
+        .quantity span { padding: 8px 16px; border: 1px solid #ddd; border-radius: 8px }
+        .item-actions { display: flex; gap: 15px; flex-wrap: wrap }
+        .item-actions button { height: 40px }
+        .remove-btn { background: #dc2626 }
+        .save-btn { background: white; color: #5b21b6; border: 1px solid #5b21b6 }
+        .coupon { display: flex; gap: 10px; margin: 20px 0 }
+        .coupon input { min-width: 0; flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px }
+        .price-row { display: flex; justify-content: space-between; gap: 12px; margin: 16px 0 }
+        .discount { color: #16a34a }
+        .total { font-size: 22px; font-weight: bold; border-top: 1px solid #ddd; padding-top: 18px }
+        .checkout-btn { width: 100%; font-size: 16px }
+        .continue { display: block; text-align: center; margin-top: 15px; color: #5b21b6; text-decoration: none; font-weight: bold }
+        .delivery-note { margin-top: 20px; padding: 15px; background: #f5f3ff; border-radius: 10px }
+        @media(max-width:850px) {
+            .cart-layout { grid-template-columns: 1fr }
+            .cart-item { grid-template-columns: 1fr }
+            .cart-product-image { width: 100%; height: 260px }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">MarketNest</div>
+        <form action="{% url 'products:product_list' %}" method="get" style="display:contents">
+            <input type="text" name="q" placeholder="🔍 Search products..." aria-label="Search products">
+            <button type="submit">Search</button>
+        </form>
+        <a href="{% url 'home' %}"><button class="cart-btn" type="button">Home</button></a>
+        <a href="{% url 'wishlist:wishlist' %}"><button class="cart-btn" type="button">❤️ Wishlist</button></a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}"><button class="cart-btn" type="button">👤 My Account</button></a>
+            <a href="{% url 'accounts:logout' %}"><button class="cart-btn" type="button">Logout</button></a>
+        {% else %}
+            <a href="{% url 'accounts:login' %}"><button class="cart-btn" type="button">Login</button></a>
+            <a href="{% url 'accounts:register' %}"><button class="cart-btn" type="button">Register</button></a>
+        {% endif %}
+    </header>
 
-{% block title %}My Cart | MarketNest{% endblock %}
+    <main class="cart-page">
+        <h1>🛒 Shopping Cart</h1>
+        <div class="cart-layout">
+            <section class="cart-box">
+                <h2>Your Items ({{ cart_items|length }})</h2>
+                {% for item in cart_items %}
+                    <div class="cart-item">
+                        {% with item.product.productimage_set.first as product_image %}
+                            {% if product_image %}
+                                <img src="{{ product_image.image.url }}" class="cart-product-image" alt="{{ item.product.name }}">
+                            {% else %}
+                                <div class="cart-product-image" role="img" aria-label="No image available for {{ item.product.name }}" style="background:#f4f6fb;"></div>
+                            {% endif %}
+                        {% endwith %}
+                        <div>
+                            <h2>{{ item.product.name }}</h2>
+                            <p>Brand: {{ item.product.brand|default:"MarketNest" }}{% if item.product.category %} | Category: {{ item.product.category.name }}{% endif %}</p>
+                            {% if item.product.stock > 0 %}
+                                <p class="stock">✓ In Stock{% if item.product.stock <= 10 %} — {{ item.product.stock }} available{% endif %}</p>
+                            {% else %}
+                                <p style="color:#dc2626;font-weight:bold;">Currently unavailable</p>
+                            {% endif %}
+                            <p>🚚 Delivery details shown at checkout</p>
+                            <h2>₹{{ item.product.price|floatformat:2 }}</h2>
+                            <p><strong>Item subtotal:</strong> ₹{{ item.subtotal|floatformat:2 }}</p>
 
-{% block content %}
+                            <div class="quantity">
+                                <strong>Quantity:</strong>
+                                <a href="{% url 'cart:decrease_quantity' item.id %}" aria-label="Decrease quantity of {{ item.product.name }}"><button type="button">−</button></a>
+                                <span>{{ item.quantity }}</span>
+                                <a href="{% url 'cart:increase_quantity' item.id %}" aria-label="Increase quantity of {{ item.product.name }}"><button type="button">+</button></a>
+                            </div>
 
-<div class="container mt-5">
+                            <div class="item-actions">
+                                <a href="{% url 'cart:remove_from_cart' item.id %}" onclick="return confirm('Remove this item?')"><button class="remove-btn" type="button">Remove</button></a>
+                                <a href="{% url 'wishlist:add_to_wishlist' item.product.id %}"><button class="save-btn" type="button">♡ Add to Wishlist</button></a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="delivery-note">
+                        Your cart is empty. <a href="{% url 'products:product_list' %}">Continue shopping</a>
+                    </div>
+                {% endfor %}
+                {% if cart_items %}
+                    <div class="delivery-note">
+                        <strong>🚚 Delivery:</strong> Delivery details are shown during checkout.
+                    </div>
+                {% endif %}
+            </section>
 
-    <h1 class="mb-4">🛒 My Cart</h1>
-
-    {% if cart_items %}
-
-        {% for item in cart_items %}
-
-        <div class="card mb-3 shadow-sm">
-
-            <div class="card-body">
-
-                <h4>{{ item.product.name }}</h4>
-
-                <p>
-                    <strong>Available Stock:</strong>
-                    {{ item.product.stock }}
-                </p>
-
-                <p>
-                    <strong>Quantity:</strong>
-
-                    <a href="{% url 'cart:decrease_quantity' item.id %}"
-                       class="btn btn-sm btn-danger">
-                        −
-                    </a>
-
-                    <span class="mx-3 fw-bold">
-                        {{ item.quantity }}
-                    </span>
-
-                    <a href="{% url 'cart:increase_quantity' item.id %}"
-                       class="btn btn-sm btn-success">
-                        +
-                    </a>
-
-                </p>
-
-                <p>
-                    <strong>Price:</strong>
-                    ₹{{ item.product.price|floatformat:2 }}
-                </p>
-
-                <p>
-                    <strong>Subtotal:</strong>
-                    ₹{{ item.subtotal|floatformat:2 }}
-                </p>
-
-                <a href="{% url 'cart:remove_from_cart' item.id %}"
-                   class="btn btn-outline-danger">
-                    Remove Item
-                </a>
-
-            </div>
-
+            <aside class="summary-box">
+                <h2>Order Summary</h2>
+                <div class="coupon">
+                    <input type="text" placeholder="Coupons aren't available yet" aria-label="Coupon codes are not available" disabled>
+                    <button type="button" disabled>Apply</button>
+                </div>
+                <div class="price-row"><span>Product Price</span><span>₹{{ total|floatformat:2 }}</span></div>
+                <div class="price-row discount"><span>Discount</span><span>₹0.00</span></div>
+                <div class="price-row"><span>Delivery Charges</span><span>Not calculated</span></div>
+                <div class="price-row"><span>Platform Fee</span><span>₹0.00</span></div>
+                <div class="price-row total">
+                    <span>Total Amount</span>
+                    <span>₹{{ total|floatformat:2 }}</span>
+                </div>
+                {% if cart_items %}
+                    <a href="{% url 'orders:place_order' %}"><button class="cart-btn checkout-btn" type="button">Proceed to Checkout →</button></a>
+                {% else %}
+                    <button class="cart-btn checkout-btn" type="button" disabled>Proceed to Checkout →</button>
+                {% endif %}
+                <a href="{% url 'products:product_list' %}" class="continue">← Continue Shopping</a>
+                <div class="delivery-note">
+                    🔒 Secure checkout<br>
+                    💳 Payment options shown at checkout<br>
+                    🔄 Return options shown during checkout
+                </div>
+            </aside>
         </div>
+    </main>
 
-        {% endfor %}
-
-        <hr>
-
-        <div class="d-flex justify-content-between align-items-center">
-
-            <h3>
-                Grand Total:
-                <span class="text-success">
-                    ₹{{ total|floatformat:2 }}
-                </span>
-            </h3>
-
-            <a href="{% url 'orders:place_order' %}"
-               class="btn btn-primary btn-lg">
-                Proceed To Checkout
-            </a>
-
-        </div>
-
-    {% else %}
-
-        <div class="alert alert-info">
-            Your cart is empty.
-        </div>
-
-    {% endif %}
-
-</div>
-
-{% endblock %}
+    <footer>
+        <p><strong>MarketNest</strong></p>
+        <p>
+            <a href="{% url 'products:product_list' %}">Products</a> |
+            <a href="{% url 'orders:order_list' %}">My Orders</a> |
+            <a href="{% url 'accounts:profile' %}">My Account</a> |
+            <a href="{% url 'wishlist:wishlist' %}">Wishlist</a>
+        </p>
+        <p>© 2026 MarketNest. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
