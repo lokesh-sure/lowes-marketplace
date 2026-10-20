@@ -38,7 +38,7 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <div class="product-image" role="img" aria-label="No image available for {{ product.name }}" style="height:400px;width:100%;border:1px solid #ddd;background:#f4f6fb;"></div>
+                <img id="mainImage" src="{{ product.fallback_image_url }}" class="product-image" alt="{{ product.name }}" style="height:400px;width:100%;border:1px solid #ddd;object-fit:contain;background:#fff;">
             {% endif %}
         </div>
 
@@ -98,7 +98,7 @@
                         {% if item_image %}
                             <img src="{{ item_image.image.url }}" class="product-image" alt="{{ item.name }}">
                         {% else %}
-                            <div class="product-image" role="img" aria-label="No image available for {{ item.name }}"></div>
+                            <img src="{{ item.fallback_image_url }}" class="product-image" alt="{{ item.name }}">
                         {% endif %}
                     {% endwith %}
                 </a>

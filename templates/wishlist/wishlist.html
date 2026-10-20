@@ -30,7 +30,7 @@
         {% for item in items %}
         <div class="cart-item">
             {% with item.product.productimage_set.first as product_image %}
-            {% if product_image and product_image.image %}<img src="{{ product_image.image.url }}" class="cart-product-image" alt="{{ item.product.name }}">{% else %}<div class="cart-product-image" role="img" aria-label="No product image available"></div>{% endif %}
+            {% if product_image and product_image.image %}<img src="{{ product_image.image.url }}" class="cart-product-image" alt="{{ item.product.name }}">{% else %}<img src="{{ item.product.fallback_image_url }}" class="cart-product-image" alt="{{ item.product.name }}">{% endif %}
             {% endwith %}
             <div>
                 <h2>{{ item.product.name }}</h2>

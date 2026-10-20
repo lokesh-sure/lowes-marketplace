@@ -65,7 +65,7 @@
                             {% if product_image %}
                                 <img src="{{ product_image.image.url }}" class="cart-product-image" alt="{{ item.product.name }}">
                             {% else %}
-                                <div class="cart-product-image" role="img" aria-label="No image available for {{ item.product.name }}" style="background:#f4f6fb;"></div>
+                                <img src="{{ item.product.fallback_image_url }}" class="cart-product-image" alt="{{ item.product.name }}">
                             {% endif %}
                         {% endwith %}
                         <div>

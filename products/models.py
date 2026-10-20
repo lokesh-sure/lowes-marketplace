@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 class Category(models.Model):
@@ -25,6 +26,18 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def fallback_image_url(self):
+        category_name = self.category.name.lower() if self.category else ""
+        product_name = self.name.lower()
+        if "appliance" in category_name or "refrigerator" in product_name:
+            image_name = "refrigerator.jpg"
+        elif "furniture" in category_name or "sofa" in product_name:
+            image_name = "sofa.jpg"
+        else:
+            image_name = "tv.jpg"
+        return staticfiles_storage.url(f"images/{image_name}")
 
 
 class ProductImage(models.Model):
