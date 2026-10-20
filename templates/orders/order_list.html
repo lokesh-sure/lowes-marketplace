@@ -234,7 +234,7 @@
         {% for item in order.items.all %}
         <div class="order-body">
             {% with item.product.productimage_set.first as product_image %}
-                {% if product_image and product_image.image %}<img src="{{ product_image.image.url }}" alt="{{ item.product.name }}" class="order-image">{% else %}<div class="order-image" role="img" aria-label="No product image available"></div>{% endif %}
+                {% if product_image and product_image.image %}<img src="{{ product_image.preview_url }}" alt="{{ item.product.name }}" class="order-image">{% else %}<div class="order-image" role="img" aria-label="No product image available"></div>{% endif %}
             {% endwith %}
             <div>
                 <h2>{{ item.product.name }}</h2>

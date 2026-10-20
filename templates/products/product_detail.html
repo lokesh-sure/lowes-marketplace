@@ -31,10 +31,10 @@
     <div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start;">
         <div style="flex:1;min-width:320px;">
             {% if product_images %}
-                <img id="mainImage" src="{{ product_images.0.image.url }}" class="product-image" alt="{{ product.name }}" style="height:400px;width:100%;border:1px solid #ddd;object-fit:contain;background:#fff;">
+                <img id="mainImage" src="{{ product_images.0.preview_url }}" class="product-image" alt="{{ product.name }}" style="height:400px;width:100%;border:1px solid #ddd;object-fit:contain;background:#fff;">
                 <div style="display:flex;gap:10px;margin-top:15px;justify-content:center;flex-wrap:wrap;">
                     {% for image in product_images %}
-                        <img src="{{ image.image.url }}" width="80" height="80" alt="{{ product.name }} image {{ forloop.counter }}" style="object-fit:contain;cursor:pointer;border:1px solid #ddd;" onclick="changeImage('{{ image.image.url }}')">
+                        <img src="{{ image.preview_url }}" width="80" height="80" alt="{{ product.name }} image {{ forloop.counter }}" style="object-fit:contain;cursor:pointer;border:1px solid #ddd;" onclick="changeImage('{{ image.preview_url }}')">
                     {% endfor %}
                 </div>
             {% else %}
@@ -96,7 +96,7 @@
                 <a href="{% url 'products:product_detail' item.id %}">
                     {% with item.productimage_set.first as item_image %}
                         {% if item_image %}
-                            <img src="{{ item_image.image.url }}" class="product-image" alt="{{ item.name }}">
+                            <img src="{{ item_image.preview_url }}" class="product-image" alt="{{ item.name }}">
                         {% else %}
                             <img src="{{ item.fallback_image_url }}" class="product-image" alt="{{ item.name }}">
                         {% endif %}

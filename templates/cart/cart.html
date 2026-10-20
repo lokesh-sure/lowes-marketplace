@@ -63,7 +63,7 @@
                     <div class="cart-item">
                         {% with item.product.productimage_set.first as product_image %}
                             {% if product_image %}
-                                <img src="{{ product_image.image.url }}" class="cart-product-image" alt="{{ item.product.name }}">
+                                <img src="{{ product_image.preview_url }}" class="cart-product-image" alt="{{ item.product.name }}">
                             {% else %}
                                 <img src="{{ item.product.fallback_image_url }}" class="cart-product-image" alt="{{ item.product.name }}">
                             {% endif %}

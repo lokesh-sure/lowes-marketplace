@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -52,3 +53,10 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return self.product.name
+
+    @property
+    def preview_url(self):
+        """Serve bundled demo catalog images through Django's static storage."""
+        if settings.MARKETNEST_DEMO_MODE and self.image.name.startswith("demo_catalog_images/"):
+            return staticfiles_storage.url(self.image.name)
+        return self.image.url

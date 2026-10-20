@@ -1,0 +1,910 @@
+[
+  {
+    "model": "products.category",
+    "pk": 1,
+    "fields": {
+      "name": "ELECTRONICS"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 3,
+    "fields": {
+      "name": "APPLIANCES"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 4,
+    "fields": {
+      "name": "MOBILES & COMPUTERS"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 5,
+    "fields": {
+      "name": "FURNITURE"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 6,
+    "fields": {
+      "name": "HOME & KITCHEN"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 7,
+    "fields": {
+      "name": "FASHION"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 8,
+    "fields": {
+      "name": "BEAUTY & PERSONAL CARE"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 9,
+    "fields": {
+      "name": "SPORTS & FITNESS"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "refregirator",
+      "category": 3,
+      "brand": "samsung",
+      "price": "56000.00",
+      "description": "loon7fQAWSEDRFHJZXSECVBNXCVBGNH",
+      "stock": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "refregirator",
+      "category": 3,
+      "brand": "samsung",
+      "price": "490000.00",
+      "description": "qwertyuiosdfghjkxcvbnmwertyuifghcvbn",
+      "stock": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "Samsung Refrigerator",
+      "category": 3,
+      "brand": "Samsung",
+      "price": "45999.00",
+      "description": "Test Product",
+      "stock": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "Galaxy Demo Phone X1",
+      "category": 1,
+      "brand": "Samsung",
+      "price": "45999.00",
+      "description": "Samsung Galaxy Demo Phone X1 - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "Bravia Demo Smart TV",
+      "category": 1,
+      "brand": "Sony",
+      "price": "64999.00",
+      "description": "Sony Bravia Demo Smart TV - MarketNest demo product.",
+      "stock": 15
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "OLED Demo TV 55",
+      "category": 1,
+      "brand": "LG",
+      "price": "72999.00",
+      "description": "LG OLED Demo TV 55 - MarketNest demo product.",
+      "stock": 12
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "Bluetooth Demo Speaker",
+      "category": 1,
+      "brand": "Sony",
+      "price": "8999.00",
+      "description": "Sony Bluetooth Demo Speaker - MarketNest demo product.",
+      "stock": 25
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "Wireless Demo Headphones",
+      "category": 1,
+      "brand": "JBL",
+      "price": "5999.00",
+      "description": "JBL Wireless Demo Headphones - MarketNest demo product.",
+      "stock": 30
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "Frost Free Demo Refrigerator",
+      "category": 3,
+      "brand": "LG",
+      "price": "48999.00",
+      "description": "LG Frost Free Demo Refrigerator - MarketNest demo product.",
+      "stock": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "Double Door Demo Refrigerator",
+      "category": 3,
+      "brand": "Samsung",
+      "price": "55999.00",
+      "description": "Samsung Double Door Demo Refrigerator - MarketNest demo product.",
+      "stock": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "Demo Washing Machine 7KG",
+      "category": 3,
+      "brand": "Whirlpool",
+      "price": "32999.00",
+      "description": "Whirlpool Demo Washing Machine 7KG - MarketNest demo product.",
+      "stock": 12
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "Demo Air Conditioner 1.5T",
+      "category": 3,
+      "brand": "Voltas",
+      "price": "41999.00",
+      "description": "Voltas Demo Air Conditioner 1.5T - MarketNest demo product.",
+      "stock": 8
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 13,
+    "fields": {
+      "name": "Demo Mixer Grinder",
+      "category": 3,
+      "brand": "Bajaj",
+      "price": "4999.00",
+      "description": "Bajaj Demo Mixer Grinder - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 14,
+    "fields": {
+      "name": "Demo Smartphone Pro",
+      "category": 4,
+      "brand": "Apple",
+      "price": "79999.00",
+      "description": "Apple Demo Smartphone Pro - MarketNest demo product.",
+      "stock": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 15,
+    "fields": {
+      "name": "Demo Smartphone A1",
+      "category": 4,
+      "brand": "OnePlus",
+      "price": "39999.00",
+      "description": "OnePlus Demo Smartphone A1 - MarketNest demo product.",
+      "stock": 15
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 16,
+    "fields": {
+      "name": "Demo Laptop 14",
+      "category": 4,
+      "brand": "HP",
+      "price": "62999.00",
+      "description": "HP Demo Laptop 14 - MarketNest demo product.",
+      "stock": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 17,
+    "fields": {
+      "name": "Demo Laptop Pro",
+      "category": 4,
+      "brand": "Dell",
+      "price": "74999.00",
+      "description": "Dell Demo Laptop Pro - MarketNest demo product.",
+      "stock": 8
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "name": "Demo Gaming Laptop",
+      "category": 4,
+      "brand": "Lenovo",
+      "price": "89999.00",
+      "description": "Lenovo Demo Gaming Laptop - MarketNest demo product.",
+      "stock": 6
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 19,
+    "fields": {
+      "name": "Demo Office Chair",
+      "category": 5,
+      "brand": "Wakefit",
+      "price": "8999.00",
+      "description": "Wakefit Demo Office Chair - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 20,
+    "fields": {
+      "name": "Demo Study Table",
+      "category": 5,
+      "brand": "Urban Ladder",
+      "price": "12999.00",
+      "description": "Urban Ladder Demo Study Table - MarketNest demo product.",
+      "stock": 15
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 21,
+    "fields": {
+      "name": "Demo King Bed",
+      "category": 5,
+      "brand": "Wakefit",
+      "price": "29999.00",
+      "description": "Wakefit Demo King Bed - MarketNest demo product.",
+      "stock": 8
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 22,
+    "fields": {
+      "name": "Demo Bookshelf",
+      "category": 5,
+      "brand": "Urban Ladder",
+      "price": "9999.00",
+      "description": "Urban Ladder Demo Bookshelf - MarketNest demo product.",
+      "stock": 12
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 23,
+    "fields": {
+      "name": "Demo Sofa Set",
+      "category": 5,
+      "brand": "Pepperfry",
+      "price": "34999.00",
+      "description": "Pepperfry Demo Sofa Set - MarketNest demo product.",
+      "stock": 7
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 24,
+    "fields": {
+      "name": "Demo Air Fryer",
+      "category": 6,
+      "brand": "Philips",
+      "price": "8999.00",
+      "description": "Philips Demo Air Fryer - MarketNest demo product.",
+      "stock": 15
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 25,
+    "fields": {
+      "name": "Demo Electric Kettle",
+      "category": 6,
+      "brand": "Prestige",
+      "price": "1999.00",
+      "description": "Prestige Demo Electric Kettle - MarketNest demo product.",
+      "stock": 25
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 26,
+    "fields": {
+      "name": "Demo Induction Cooktop",
+      "category": 6,
+      "brand": "Prestige",
+      "price": "2999.00",
+      "description": "Prestige Demo Induction Cooktop - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 27,
+    "fields": {
+      "name": "Demo Coffee Maker",
+      "category": 6,
+      "brand": "Philips",
+      "price": "6999.00",
+      "description": "Philips Demo Coffee Maker - MarketNest demo product.",
+      "stock": 12
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 28,
+    "fields": {
+      "name": "Demo Dinner Set",
+      "category": 6,
+      "brand": "Milton",
+      "price": "2499.00",
+      "description": "Milton Demo Dinner Set - MarketNest demo product.",
+      "stock": 25
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 29,
+    "fields": {
+      "name": "Demo Running Shoes",
+      "category": 7,
+      "brand": "Nike",
+      "price": "7999.00",
+      "description": "Nike Demo Running Shoes - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 30,
+    "fields": {
+      "name": "Demo Sports Shoes",
+      "category": 7,
+      "brand": "Adidas",
+      "price": "6999.00",
+      "description": "Adidas Demo Sports Shoes - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 31,
+    "fields": {
+      "name": "Demo Casual Sneakers",
+      "category": 7,
+      "brand": "Puma",
+      "price": "4999.00",
+      "description": "Puma Demo Casual Sneakers - MarketNest demo product.",
+      "stock": 25
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 32,
+    "fields": {
+      "name": "Demo Hoodie",
+      "category": 7,
+      "brand": "Adidas",
+      "price": "2999.00",
+      "description": "Adidas Demo Hoodie - MarketNest demo product.",
+      "stock": 30
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 33,
+    "fields": {
+      "name": "Demo Backpack",
+      "category": 7,
+      "brand": "Puma",
+      "price": "2499.00",
+      "description": "Puma Demo Backpack - MarketNest demo product.",
+      "stock": 25
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 34,
+    "fields": {
+      "name": "Demo Face Wash",
+      "category": 8,
+      "brand": "Nivea",
+      "price": "499.00",
+      "description": "Nivea Demo Face Wash - MarketNest demo product.",
+      "stock": 40
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 35,
+    "fields": {
+      "name": "Demo Moisturizer",
+      "category": 8,
+      "brand": "Nivea",
+      "price": "699.00",
+      "description": "Nivea Demo Moisturizer - MarketNest demo product.",
+      "stock": 35
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 36,
+    "fields": {
+      "name": "Demo Hair Dryer",
+      "category": 8,
+      "brand": "Philips",
+      "price": "2499.00",
+      "description": "Philips Demo Hair Dryer - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 37,
+    "fields": {
+      "name": "Demo Electric Trimmer",
+      "category": 8,
+      "brand": "Philips",
+      "price": "1999.00",
+      "description": "Philips Demo Electric Trimmer - MarketNest demo product.",
+      "stock": 25
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 38,
+    "fields": {
+      "name": "Demo Grooming Kit",
+      "category": 8,
+      "brand": "Philips",
+      "price": "3999.00",
+      "description": "Philips Demo Grooming Kit - MarketNest demo product.",
+      "stock": 15
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 39,
+    "fields": {
+      "name": "Demo Football",
+      "category": 9,
+      "brand": "Adidas",
+      "price": "1999.00",
+      "description": "Adidas Demo Football - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 40,
+    "fields": {
+      "name": "Demo Cricket Bat",
+      "category": 9,
+      "brand": "SS",
+      "price": "4999.00",
+      "description": "SS Demo Cricket Bat - MarketNest demo product.",
+      "stock": 12
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 41,
+    "fields": {
+      "name": "Demo Yoga Mat",
+      "category": 9,
+      "brand": "Decathlon",
+      "price": "999.00",
+      "description": "Decathlon Demo Yoga Mat - MarketNest demo product.",
+      "stock": 30
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 42,
+    "fields": {
+      "name": "Demo Dumbbell Set",
+      "category": 9,
+      "brand": "Decathlon",
+      "price": "2999.00",
+      "description": "Decathlon Demo Dumbbell Set - MarketNest demo product.",
+      "stock": 20
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 43,
+    "fields": {
+      "name": "Demo Fitness Cycle",
+      "category": 9,
+      "brand": "Decathlon",
+      "price": "14999.00",
+      "description": "Decathlon Demo Fitness Cycle - MarketNest demo product.",
+      "stock": 8
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 1,
+    "fields": {
+      "product": 3,
+      "image": "demo_catalog_images/1-cebce8122df98a7b.jfif"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "image": "demo_catalog_images/2-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 3,
+    "fields": {
+      "product": 2,
+      "image": "demo_catalog_images/3-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 4,
+    "fields": {
+      "product": 4,
+      "image": "demo_catalog_images/4-279e94aa2668c006.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 5,
+    "fields": {
+      "product": 5,
+      "image": "demo_catalog_images/5-c3801a8c6aaf9ab4.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 6,
+    "fields": {
+      "product": 6,
+      "image": "demo_catalog_images/6-c3801a8c6aaf9ab4.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 7,
+    "fields": {
+      "product": 7,
+      "image": "demo_catalog_images/7-71e13dbcea568886.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 8,
+    "fields": {
+      "product": 8,
+      "image": "demo_catalog_images/8-279e94aa2668c006.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 9,
+    "fields": {
+      "product": 9,
+      "image": "demo_catalog_images/9-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 10,
+    "fields": {
+      "product": 10,
+      "image": "demo_catalog_images/10-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 11,
+    "fields": {
+      "product": 11,
+      "image": "demo_catalog_images/11-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 12,
+    "fields": {
+      "product": 12,
+      "image": "demo_catalog_images/12-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 13,
+    "fields": {
+      "product": 13,
+      "image": "demo_catalog_images/13-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 14,
+    "fields": {
+      "product": 14,
+      "image": "demo_catalog_images/14-279e94aa2668c006.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 15,
+    "fields": {
+      "product": 15,
+      "image": "demo_catalog_images/15-279e94aa2668c006.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 16,
+    "fields": {
+      "product": 16,
+      "image": "demo_catalog_images/16-f7a4eb542ba1183f.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 17,
+    "fields": {
+      "product": 17,
+      "image": "demo_catalog_images/17-f7a4eb542ba1183f.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 18,
+    "fields": {
+      "product": 18,
+      "image": "demo_catalog_images/18-f7a4eb542ba1183f.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 19,
+    "fields": {
+      "product": 19,
+      "image": "demo_catalog_images/19-42a04f850c20eddf.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 20,
+    "fields": {
+      "product": 20,
+      "image": "demo_catalog_images/20-42a04f850c20eddf.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 21,
+    "fields": {
+      "product": 21,
+      "image": "demo_catalog_images/21-42a04f850c20eddf.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 22,
+    "fields": {
+      "product": 22,
+      "image": "demo_catalog_images/22-42a04f850c20eddf.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 23,
+    "fields": {
+      "product": 23,
+      "image": "demo_catalog_images/23-42a04f850c20eddf.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 24,
+    "fields": {
+      "product": 24,
+      "image": "demo_catalog_images/24-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 25,
+    "fields": {
+      "product": 25,
+      "image": "demo_catalog_images/25-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 26,
+    "fields": {
+      "product": 26,
+      "image": "demo_catalog_images/26-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 27,
+    "fields": {
+      "product": 27,
+      "image": "demo_catalog_images/27-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 28,
+    "fields": {
+      "product": 28,
+      "image": "demo_catalog_images/28-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 29,
+    "fields": {
+      "product": 29,
+      "image": "demo_catalog_images/29-9fe0d4c648ed2e03.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 30,
+    "fields": {
+      "product": 30,
+      "image": "demo_catalog_images/30-9fe0d4c648ed2e03.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 31,
+    "fields": {
+      "product": 31,
+      "image": "demo_catalog_images/31-9fe0d4c648ed2e03.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 32,
+    "fields": {
+      "product": 33,
+      "image": "demo_catalog_images/32-f96608ee16d9ebad.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 33,
+    "fields": {
+      "product": 34,
+      "image": "demo_catalog_images/33-73d12e8da92345a5.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 34,
+    "fields": {
+      "product": 35,
+      "image": "demo_catalog_images/34-73d12e8da92345a5.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 35,
+    "fields": {
+      "product": 36,
+      "image": "demo_catalog_images/35-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 36,
+    "fields": {
+      "product": 37,
+      "image": "demo_catalog_images/36-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 37,
+    "fields": {
+      "product": 38,
+      "image": "demo_catalog_images/37-2edf67d907527a87.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 38,
+    "fields": {
+      "product": 39,
+      "image": "demo_catalog_images/38-3ec969aef41dbc63.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 39,
+    "fields": {
+      "product": 40,
+      "image": "demo_catalog_images/39-3ec969aef41dbc63.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 40,
+    "fields": {
+      "product": 41,
+      "image": "demo_catalog_images/40-3ec969aef41dbc63.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 41,
+    "fields": {
+      "product": 42,
+      "image": "demo_catalog_images/41-3ec969aef41dbc63.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 42,
+    "fields": {
+      "product": 43,
+      "image": "demo_catalog_images/42-3ec969aef41dbc63.jpg"
+    }
+  }
+]

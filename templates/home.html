@@ -71,7 +71,7 @@
                     <a href="{% url 'products:product_detail' product.id %}">
                         {% with product.productimage_set.first as product_image %}
                             {% if product_image and product_image.image %}
-                                <img src="{{ product_image.image.url }}" class="product-image" alt="{{ product.name }}">
+                                <img src="{{ product_image.preview_url }}" class="product-image" alt="{{ product.name }}">
                             {% else %}
                                 <img src="{{ product.fallback_image_url }}" class="product-image" alt="{{ product.name }}">
                             {% endif %}
