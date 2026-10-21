@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Portal - MarketNest{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+    <h1>MarketNest Admin Portal</h1>
+    <p>Sign in with an authorized staff or administrator account to manage the MarketNest store.</p>
+    <p>Customer accounts do not have access to the admin panel.</p>
+    <a href="{% url 'admin:login' %}"><button type="button">Continue to Admin Login</button></a>
+</section>
+{% endblock %}

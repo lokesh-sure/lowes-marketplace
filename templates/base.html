@@ -78,6 +78,7 @@
             <a href="{% url 'products:product_list' %}">Products</a>
             <a href="/cart/">Cart</a>
             <a href="/wishlist/">Wishlist</a>
+            <a href="{% url 'pages:admin_access' %}">Admin</a>
 
             {% if user.is_authenticated %}
                 <a href="{% url 'accounts:profile' %}">My Profile</a>
@@ -108,7 +109,7 @@
             <a href="{% url 'pages:privacy' %}">Privacy Policy</a> |
             <a href="{% url 'pages:contact' %}">Contact</a> |
             <a href="{% url 'pages:help' %}">Help Center</a> |
-            <a href="{% url 'admin:login' %}">Admin Login</a>
+            <a href="{% url 'pages:admin_access' %}">Admin Portal</a>
         </p>
         <p>&copy; 2026 MarketNest. All Rights Reserved.</p>
     </footer>

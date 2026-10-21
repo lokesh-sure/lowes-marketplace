@@ -16,6 +16,10 @@ def help_center(request):
     return render(request, "pages/help.html")
 
 
+def admin_access(request):
+    return render(request, "pages/admin_access.html")
+
+
 def contact(request):
     if request.method == "POST":
         full_name = request.POST.get("full_name", "").strip()
