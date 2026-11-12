@@ -35,4 +35,8 @@ class Command(BaseCommand):
             raise CommandError(
                 "That username already belongs to a regular account. Choose a separate admin username."
             )
-        self.stdout.write("Preview admin account already exists; no changes made.")
+        user.set_password(password)
+        user.is_active = True
+        user.is_staff = True
+        user.save(update_fields=["password", "is_active", "is_staff"])
+        self.stdout.write(self.style.SUCCESS("Preview admin account password synchronized."))
