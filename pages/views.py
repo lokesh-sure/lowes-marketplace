@@ -1,7 +1,20 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.core.mail import send_mail
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
+from products.models import Product, ProductImage, Category
+from .forms import ProductForm, ProductImageForm, CustomerEditForm
+
+User = get_user_model()
+
+
+def staff_required(view):
+    return user_passes_test(
+        lambda user: user.is_authenticated and user.is_active and user.is_staff,
+        login_url="pages:admin_access",
+    )(view)
 
 
 def about(request):
@@ -17,7 +30,100 @@ def help_center(request):
 
 
 def admin_access(request):
+    if request.user.is_authenticated and request.user.is_active and request.user.is_staff:
+        return redirect("pages:admin_dashboard")
+
+    if request.method == "POST":
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "")
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.is_active and user.is_staff:
+            login(request, user)
+            return redirect("pages:admin_dashboard")
+
+        messages.error(request, "Enter valid credentials for an active staff account.")
+
     return render(request, "pages/admin_access.html")
+
+
+@staff_required
+def admin_dashboard(request):
+    return render(request, "pages/admin_dashboard.html", {
+        "product_count": Product.objects.count(),
+        "category_count": Category.objects.count(),
+        "customer_count": User.objects.filter(is_staff=False).count(),
+        "low_stock_count": Product.objects.filter(stock__lte=5).count(),
+    })
+
+
+@staff_required
+def admin_products(request):
+    query = request.GET.get("q", "").strip()
+    products = Product.objects.select_related("category").order_by("name")
+    if query:
+        products = products.filter(name__icontains=query)
+    return render(request, "pages/admin_products.html", {"products": products, "query": query})
+
+
+@staff_required
+def admin_product_form(request, product_id=None):
+    product = get_object_or_404(Product, pk=product_id) if product_id else None
+    form = ProductForm(request.POST or None, instance=product)
+    image_form = ProductImageForm(request.POST or None, request.FILES or None)
+    if request.method == "POST" and form.is_valid() and image_form.is_valid():
+        saved_product = form.save()
+        image = image_form.cleaned_data.get("image")
+        if image:
+            ProductImage.objects.create(product=saved_product, image=image)
+        messages.success(request, "Product saved successfully.")
+        return redirect("pages:admin_products")
+    return render(request, "pages/admin_product_form.html", {
+        "form": form, "image_form": image_form, "product": product,
+    })
+
+
+@staff_required
+@require_POST
+def admin_product_delete(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    messages.success(request, "Product deleted.")
+    return redirect("pages:admin_products")
+
+
+@staff_required
+def admin_customers(request):
+    query = request.GET.get("q", "").strip()
+    customers = User.objects.filter(is_staff=False).order_by("username")
+    if query:
+        from django.db.models import Q
+        customers = customers.filter(
+            Q(username__icontains=query) | Q(email__icontains=query)
+            | Q(first_name__icontains=query) | Q(last_name__icontains=query)
+        )
+    return render(request, "pages/admin_customers.html", {"customers": customers, "query": query})
+
+
+@staff_required
+def admin_customer_edit(request, user_id):
+    customer = get_object_or_404(User, pk=user_id, is_staff=False)
+    form = CustomerEditForm(request.POST or None, instance=customer)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Customer details updated.")
+        return redirect("pages:admin_customers")
+    return render(request, "pages/admin_customer_form.html", {"form": form, "customer": customer})
+
+
+@staff_required
+@require_POST
+def admin_customer_toggle(request, user_id):
+    customer = get_object_or_404(User, pk=user_id, is_staff=False)
+    customer.is_active = not customer.is_active
+    customer.save(update_fields=["is_active"])
+    messages.success(request, "Customer account " + ("activated." if customer.is_active else "deactivated."))
+    return redirect("pages:admin_customers")
 
 
 def contact(request):

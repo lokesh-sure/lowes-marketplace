@@ -3,10 +3,23 @@
 {% block title %}Admin Portal - MarketNest{% endblock %}
 
 {% block content %}
-<section class="cart-page">
-    <h1>MarketNest Admin Portal</h1>
-    <p>Sign in with an authorized staff or administrator account to manage the MarketNest store.</p>
-    <p>Customer accounts do not have access to the admin panel.</p>
-    <a href="{% url 'admin:login' %}"><button type="button">Continue to Admin Login</button></a>
+<section class="product-details">
+    <div class="login-container">
+        <div class="login-card">
+            <h1>Store Admin</h1>
+            <p>Sign in to manage your product catalog and customer accounts.</p>
+            <form method="post" action="{% url 'pages:admin_access' %}">
+                {% csrf_token %}
+                <label for="admin-username">Admin username</label>
+                <input id="admin-username" type="text" name="username" required autocomplete="username" autofocus>
+
+                <label for="admin-password">Password</label>
+                <input id="admin-password" type="password" name="password" required autocomplete="current-password">
+
+                <button class="cart-btn" type="submit">Sign in</button>
+            </form>
+            <p style="text-align:center;margin-top:18px;">Use the staff account configured for this store.</p>
+        </div>
+    </div>
 </section>
 {% endblock %}
