@@ -45,6 +45,12 @@ class Command(BaseCommand):
             user = User._default_manager.get_by_natural_key(username)
         except User.DoesNotExist:
             user = User(username=username)
+        else:
+            if user.is_superuser and user.pk:
+                self.stdout.write(
+                    "Admin account already exists; preserving its current password and account settings."
+                )
+                return
 
         if not user.is_superuser and user.pk:
             raise CommandError(
