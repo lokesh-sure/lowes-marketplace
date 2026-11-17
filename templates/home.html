@@ -38,13 +38,34 @@
         <a href="{% url 'pages:admin_access' %}">Admin</a>
     </nav>
 
-    <section class="hero">
-        <h1>🔥 Mega Sale 2026</h1>
-        <p>Electronics, Appliances &amp; Furniture Up To 50% OFF</p>
-        <p>🚚 Free Delivery | 🔒 Secure Payments | ⭐ Best Deals</p>
-        <a href="{% url 'products:product_list' %}"><button class="shop-btn" type="button">Shop Now</button></a>
-        <a href="{% url 'products:product_list' %}"><button class="shop-btn" type="button">Explore Deals</button></a>
-    </section>
+    {% if sale_posters %}
+        <section class="hero mn-sale-carousel" data-sale-carousel aria-label="Current sale posters">
+            {% for poster in sale_posters %}
+                <div class="mn-sale-slide{% if forloop.first %} is-active{% endif %}" data-sale-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+                    <img src="{% url 'pages:sale_poster_image' poster.id %}" alt="{{ poster.alt_text }}" class="mn-sale-poster">
+                </div>
+            {% endfor %}
+            {% if sale_posters|length > 1 %}
+                <div class="mn-sale-controls" aria-label="Poster controls">
+                    <button type="button" class="mn-sale-arrow" data-sale-prev aria-label="Previous poster">‹</button>
+                    <div class="mn-sale-dots" aria-label="Choose a sale poster">
+                        {% for poster in sale_posters %}
+                            <button type="button" class="mn-sale-dot{% if forloop.first %} is-active{% endif %}" data-sale-dot="{{ forloop.counter0 }}" aria-label="Show poster {{ forloop.counter }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="mn-sale-arrow" data-sale-next aria-label="Next poster">›</button>
+                </div>
+            {% endif %}
+        </section>
+    {% else %}
+        <section class="hero">
+            <h1>🔥 Mega Sale 2026</h1>
+            <p>Electronics, Appliances &amp; Furniture Up To 50% OFF</p>
+            <p>🚚 Free Delivery | 🔒 Secure Payments | ⭐ Best Deals</p>
+            <a href="{% url 'products:product_list' %}"><button class="shop-btn" type="button">Shop Now</button></a>
+            <a href="{% url 'products:product_list' %}"><button class="shop-btn" type="button">Explore Deals</button></a>
+        </section>
+    {% endif %}
 
     <section class="categories">
         <h2>🛍 Shop By Category</h2>
@@ -126,5 +147,42 @@
         </p>
         <p>© 2026 MarketNest. All Rights Reserved.</p>
     </footer>
+    {% if sale_posters|length > 1 %}
+        <script>
+            (() => {
+                const carousel = document.querySelector("[data-sale-carousel]");
+                if (!carousel) return;
+                const slides = [...carousel.querySelectorAll("[data-sale-slide]")];
+                const dots = [...carousel.querySelectorAll("[data-sale-dot]")];
+                let active = 0;
+                let timer;
+                const show = (index) => {
+                    active = (index + slides.length) % slides.length;
+                    slides.forEach((slide, position) => {
+                        const selected = position === active;
+                        slide.classList.toggle("is-active", selected);
+                        slide.setAttribute("aria-hidden", String(!selected));
+                    });
+                    dots.forEach((dot, position) => {
+                        const selected = position === active;
+                        dot.classList.toggle("is-active", selected);
+                        dot.setAttribute("aria-current", String(selected));
+                    });
+                };
+                const start = () => {
+                    window.clearInterval(timer);
+                    timer = window.setInterval(() => show(active + 1), 5000);
+                };
+                carousel.querySelector("[data-sale-prev]").addEventListener("click", () => { show(active - 1); start(); });
+                carousel.querySelector("[data-sale-next]").addEventListener("click", () => { show(active + 1); start(); });
+                dots.forEach((dot) => dot.addEventListener("click", () => { show(Number(dot.dataset.saleDot)); start(); }));
+                carousel.addEventListener("mouseenter", () => window.clearInterval(timer));
+                carousel.addEventListener("mouseleave", start);
+                carousel.addEventListener("focusin", () => window.clearInterval(timer));
+                carousel.addEventListener("focusout", start);
+                start();
+            })();
+        </script>
+    {% endif %}
 </body>
 </html>

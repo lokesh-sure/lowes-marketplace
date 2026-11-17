@@ -2,10 +2,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.core.mail import send_mail
+from django.db import transaction
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from products.models import Product, ProductImage, Category
-from .forms import ProductForm, ProductImageForm, CustomerEditForm
+from .forms import ProductForm, ProductImageForm, CustomerEditForm, SalePosterForm
+from .models import SalePoster
 
 User = get_user_model()
 
@@ -54,7 +57,54 @@ def admin_dashboard(request):
         "category_count": Category.objects.count(),
         "customer_count": User.objects.filter(is_staff=False).count(),
         "low_stock_count": Product.objects.filter(stock__lte=5).count(),
+        "sale_poster_count": SalePoster.objects.count(),
     })
+
+
+@staff_required
+def admin_sale_posters(request):
+    form = SalePosterForm(request.POST or None, request.FILES or None)
+    if request.method == "POST" and request.POST.get("action") == "clear":
+        SalePoster.objects.all().delete()
+        messages.success(request, "Homepage sale posters removed. The default banner is showing again.")
+        return redirect("pages:admin_sale_posters")
+
+    if request.method == "POST" and form.is_valid():
+        uploaded_posters = form.cleaned_data["posters"]
+        if uploaded_posters:
+            alt_text = form.cleaned_data["alt_text"].strip() or "Store sale poster"
+            with transaction.atomic():
+                SalePoster.objects.all().delete()
+                for position, upload in enumerate(uploaded_posters):
+                    image_format = getattr(getattr(upload, "image", None), "format", "")
+                    content_type = {
+                        "JPEG": "image/jpeg",
+                        "PNG": "image/png",
+                        "WEBP": "image/webp",
+                    }.get(image_format)
+                    SalePoster.objects.create(
+                        image_data=upload.read(),
+                        image_content_type=content_type,
+                        alt_text=alt_text,
+                        position=position,
+                    )
+            messages.success(request, f"{len(uploaded_posters)} homepage poster(s) saved.")
+            return redirect("pages:admin_sale_posters")
+        else:
+            form.add_error("posters", "Choose at least one image to replace the current posters.")
+
+    return render(request, "pages/admin_sale_posters.html", {
+        "form": form,
+        "posters": SalePoster.objects.all(),
+    })
+
+
+def sale_poster_image(request, poster_id):
+    poster = get_object_or_404(SalePoster, pk=poster_id)
+    response = HttpResponse(poster.image_data, content_type=poster.image_content_type)
+    response["Cache-Control"] = "public, max-age=3600"
+    response["X-Content-Type-Options"] = "nosniff"
+    return response
 
 
 @staff_required

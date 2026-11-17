@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Manage Sale Posters - MarketNest{% endblock %}
+{% block content %}
+<section class="mn-admin mn-sale-admin">
+  <div class="mn-admin-head">
+    <div><p class="mn-eyebrow">HOMEPAGE CONTENT</p><h1>Sale posters</h1><p>Upload the images for your current festival or seasonal sale.</p></div>
+    <a class="mn-button mn-button-light" href="{% url 'home' %}" target="_blank" rel="noopener">View homepage</a>
+  </div>
+  <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a><a class="selected" href="{% url 'pages:admin_sale_posters' %}">Sale posters</a></nav>
+
+  <div class="mn-sale-admin-intro">
+    <h2>Current homepage posters <span>{{ posters|length }} of 3</span></h2>
+    <p>The homepage rotates only through the images shown here. Uploading a new set replaces the current set. With no uploaded posters, the default Mega Sale banner appears.</p>
+  </div>
+
+  {% if posters %}
+    <div class="mn-poster-admin-grid">
+      {% for poster in posters %}
+        <article class="mn-poster-admin-card">
+          <img src="{% url 'pages:sale_poster_image' poster.id %}" alt="{{ poster.alt_text }}">
+          <div><strong>Poster {{ forloop.counter }}</strong><span>{{ poster.alt_text }}</span></div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="mn-poster-empty"><strong>No custom posters yet</strong><span>Your existing Mega Sale banner will stay visible until you upload a poster.</span></div>
+  {% endif %}
+
+  <form class="mn-form-card mn-poster-upload" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>Upload a new poster set</h2>
+    <p>Choose 1, 2, or 3 finished JPG, PNG, or WebP poster images. The images appear in the same order you select them.</p>
+    <div class="mn-field">
+      <label for="id_posters">Poster images</label>
+      {{ form.posters }}
+      {% if form.posters.help_text %}<small>{{ form.posters.help_text }}</small>{% endif %}
+      {% for error in form.posters.errors %}<small class="mn-error">{{ error }}</small>{% endfor %}
+    </div>
+    <div class="mn-field">
+      <label for="id_alt_text">Image description</label>
+      {{ form.alt_text }}
+      {% if form.alt_text.help_text %}<small>{{ form.alt_text.help_text }}</small>{% endif %}
+      {% for error in form.alt_text.errors %}<small class="mn-error">{{ error }}</small>{% endfor %}
+    </div>
+    <button class="mn-button" type="submit">Save posters to homepage</button>
+  </form>
+
+  {% if posters %}
+    <form class="mn-poster-clear" method="post" onsubmit="return confirm('Remove all custom posters and show the default Mega Sale banner?');">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="clear">
+      <button class="mn-link-danger" type="submit">Remove all custom posters</button>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}

@@ -101,6 +101,7 @@ def product_detail(request, product_id):
 def home_view(request):
     from django.shortcuts import render
     from .models import Product, Category
+    from pages.models import SalePoster
 
     categories = Category.objects.all().order_by("name")
     products = Product.objects.all().order_by("id")[:8]
@@ -111,5 +112,6 @@ def home_view(request):
         {
             "categories": categories,
             "products": products,
+            "sale_posters": SalePoster.objects.all(),
         },
     )

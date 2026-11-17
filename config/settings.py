@@ -73,6 +73,7 @@ INSTALLED_APPS = [
 
     "accounts",
     "products",
+    "pages",
     "cart.apps.CartConfig",
     "orders",
     "wishlist",
