@@ -27,6 +27,22 @@ header {
     font-weight: 700
 }
 
+.logo a {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.logo img {
+    display: block;
+    width: auto;
+    height: 54px;
+    max-width: 220px;
+    object-fit: contain;
+}
+
 header input {
     flex: 1;
     height: 48px;
