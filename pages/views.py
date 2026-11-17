@@ -7,8 +7,8 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from products.models import Product, ProductImage, Category
-from .forms import ProductForm, ProductImageForm, CustomerEditForm, SalePosterForm, CategoryImageForm
-from .models import SalePoster
+from .forms import ProductForm, ProductImageForm, CustomerEditForm, SalePosterForm, CategoryImageForm, BrandLogoForm
+from .models import SalePoster, StoreBranding
 
 User = get_user_model()
 
@@ -59,6 +59,48 @@ def admin_dashboard(request):
         "low_stock_count": Product.objects.filter(stock__lte=5).count(),
         "sale_poster_count": SalePoster.objects.count(),
     })
+
+
+@staff_required
+def admin_branding(request):
+    branding = StoreBranding.objects.filter(pk=1).first()
+    form = BrandLogoForm()
+    if request.method == "POST":
+        if request.POST.get("action") == "remove":
+            if branding:
+                branding.logo_data = None
+                branding.logo_content_type = ""
+                branding.save(update_fields=["logo_data", "logo_content_type", "updated_at"])
+            messages.success(request, "The default PreciousCart logo is showing again.")
+            return redirect("pages:admin_branding")
+
+        form = BrandLogoForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.cleaned_data["image"]
+            image_format = getattr(getattr(image, "image", None), "format", "")
+            if branding is None:
+                branding = StoreBranding(pk=1)
+            branding.logo_data = image.read()
+            branding.logo_content_type = {
+                "JPEG": "image/jpeg",
+                "PNG": "image/png",
+                "WEBP": "image/webp",
+            }[image_format]
+            branding.save()
+            messages.success(request, "The store logo was updated across the website.")
+            return redirect("pages:admin_branding")
+
+    return render(request, "pages/admin_branding.html", {"form": form, "branding": branding})
+
+
+def brand_logo_image(request):
+    branding = StoreBranding.objects.filter(pk=1).first()
+    if not branding or not branding.logo_data or not branding.logo_content_type:
+        raise Http404("No custom store logo is set.")
+    response = HttpResponse(branding.logo_data, content_type=branding.logo_content_type)
+    response["Cache-Control"] = "no-cache, max-age=0, must-revalidate"
+    response["X-Content-Type-Options"] = "nosniff"
+    return response
 
 
 @staff_required

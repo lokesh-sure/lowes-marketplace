@@ -6,11 +6,12 @@
     <div><p class="mn-eyebrow">HOMEPAGE CONTENT</p><h1>Category images</h1><p>Choose or replace the picture shown for each shop category.</p></div>
     <a class="mn-button mn-button-light" href="{% url 'home' %}" target="_blank" rel="noopener">View homepage</a>
   </div>
-  <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a><a class="selected" href="{% url 'pages:admin_category_images' %}">Category images</a><a href="{% url 'pages:admin_sale_posters' %}">Sale posters</a></nav>
+  <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a><a href="{% url 'pages:admin_branding' %}">Branding</a><a class="selected" href="{% url 'pages:admin_category_images' %}">Category images</a><a href="{% url 'pages:admin_sale_posters' %}">Sale posters</a></nav>
 
   <div class="mn-sale-admin-intro">
     <h2>Shop by category</h2>
     <p>Upload a JPG, PNG, or WebP image up to 8 MB. You can replace or remove a category image at any time.</p>
+    <small class="mn-image-ratio-warning">Recommended ratio: 4:3 (for example, 1200 × 900 px). The homepage crops images to fill the category tile, so keep the main subject near the center.</small>
   </div>
 
   <div class="mn-category-admin-grid">

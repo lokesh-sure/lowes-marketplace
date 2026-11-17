@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Branding - PreciousCart{% endblock %}
+{% block content %}
+<section class="mn-admin">
+  <div class="mn-admin-head">
+    <div><p class="mn-eyebrow">HOMEPAGE CONTENT</p><h1>Branding</h1><p>Change the logo shown in the header across the website.</p></div>
+    <a class="mn-button mn-button-light" href="{% url 'home' %}" target="_blank" rel="noopener">View homepage</a>
+  </div>
+  <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a><a class="selected" href="{% url 'pages:admin_branding' %}">Branding</a><a href="{% url 'pages:admin_category_images' %}">Category images</a><a href="{% url 'pages:admin_sale_posters' %}">Sale posters</a></nav>
+
+  <div class="mn-sale-admin-intro"><h2>Store logo</h2><p>Upload a replacement logo to update the header on every page. Your uploaded logo is kept in the database and the supplied PreciousCart logo remains the default until you upload one.</p></div>
+  <div class="mn-brand-logo-preview">
+    {% if branding and branding.logo_content_type %}
+      <img src="{% url 'pages:brand_logo_image' %}?v={{ branding.updated_at|date:'U' }}" alt="Current custom store logo">
+    {% else %}
+      <img src="{{ store_logo_url }}" alt="Current PreciousCart logo">
+    {% endif %}
+  </div>
+  <form class="mn-form-card" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mn-field"><label for="id_image">Replace logo</label>{{ form.image }}<small>Recommended ratio: 3:1 (for example, 1200 × 400 px). A transparent PNG works best. The header fits the full logo inside its space without cropping it.</small>{% for error in form.image.errors %}<small class="mn-error">{{ error }}</small>{% endfor %}</div>
+    <button class="mn-button" type="submit">Save logo</button>
+  </form>
+  {% if branding and branding.logo_content_type %}
+    <form class="mn-poster-clear" method="post" onsubmit="return confirm('Remove the custom logo and restore the supplied PreciousCart logo?');">
+      {% csrf_token %}<input type="hidden" name="action" value="remove">
+      <button class="mn-link-danger" type="submit">Restore default logo</button>
+    </form>
+  {% endif %}
+
+  <div class="mn-sale-admin-intro"><h2>Image ratio guide</h2><p>These are recommended upload sizes based on the homepage display frames.</p></div>
+  <div class="mn-brand-guides">
+    <article class="mn-brand-guide"><h3>Store logo · 3:1</h3><p>Example: 1200 × 400 px. The header keeps the full image visible; transparent PNG is recommended.</p></article>
+    <article class="mn-brand-guide"><h3>Product image · 1:1</h3><p>Example: 1000 × 1000 px. Keep the product centered; product cards crop to fit their image area.</p></article>
+    <article class="mn-brand-guide"><h3>Category image · 4:3</h3><p>Example: 1200 × 900 px. Category tiles fill their frame and crop the edges, so center the subject.</p></article>
+    <article class="mn-brand-guide"><h3>Sale poster · 3:1</h3><p>Example: 1500 × 500 px. The homepage fits the whole image in a matching banner frame.</p></article>
+  </div>
+</section>
+{% endblock %}
