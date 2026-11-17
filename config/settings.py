@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     for host in os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
     if host.strip()
 ]
+ALLOWED_HOSTS.extend(["preciouscart.in", "www.preciouscart.in"])
 if not DEBUG and not ALLOWED_HOSTS:
     raise ImproperlyConfigured("Set DJANGO_ALLOWED_HOSTS to the production host name(s).")
 
@@ -39,6 +40,10 @@ CSRF_TRUSTED_ORIGINS = [
     for origin in os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
     if origin.strip()
 ]
+CSRF_TRUSTED_ORIGINS.extend([
+    "https://preciouscart.in",
+    "https://www.preciouscart.in",
+])
 
 RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:

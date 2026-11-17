@@ -16,7 +16,9 @@ services:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DJANGO_ALLOWED_HOSTS
-        value: localhost,127.0.0.1
+        value: localhost,127.0.0.1,preciouscart.in,www.preciouscart.in
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: https://preciouscart.in,https://www.preciouscart.in
       - key: DJANGO_SECURE_HSTS_SECONDS
         value: "0"
       - key: MARKETNEST_DEMO_MODE
