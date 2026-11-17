@@ -10,7 +10,7 @@
 
   <div class="mn-sale-admin-intro">
     <h2>Current homepage posters <span>{{ posters|length }} of 3</span></h2>
-    <p>The homepage rotates only through the images shown here. Uploading a new set replaces the current set. With no uploaded posters, the default Mega Sale banner appears.</p>
+    <p>The homepage rotates only through the images shown here. New uploads are added to the current set, up to 3 posters total. Remove all posters before starting a fresh set.</p>
   </div>
 
   {% if posters %}
@@ -28,8 +28,8 @@
 
   <form class="mn-form-card mn-poster-upload" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <h2>Upload a new poster set</h2>
-    <p>Choose 1, 2, or 3 finished JPG, PNG, or WebP poster images. The images appear in the same order you select them.</p>
+    <h2>Add posters</h2>
+    <p>Choose one or more finished JPG, PNG, or WebP images. You can add posters in separate uploads until there are 3 total; the homepage shows them in upload order.</p>
     <div class="mn-field">
       <label for="id_posters">Poster images</label>
       {{ form.posters }}
@@ -42,7 +42,7 @@
       {% if form.alt_text.help_text %}<small>{{ form.alt_text.help_text }}</small>{% endif %}
       {% for error in form.alt_text.errors %}<small class="mn-error">{{ error }}</small>{% endfor %}
     </div>
-    <button class="mn-button" type="submit">Save posters to homepage</button>
+    <button class="mn-button" type="submit">Add posters to homepage</button>
   </form>
 
   {% if posters %}

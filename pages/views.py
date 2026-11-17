@@ -73,25 +73,38 @@ def admin_sale_posters(request):
         uploaded_posters = form.cleaned_data["posters"]
         if uploaded_posters:
             alt_text = form.cleaned_data["alt_text"].strip() or "Store sale poster"
-            with transaction.atomic():
-                SalePoster.objects.all().delete()
-                for position, upload in enumerate(uploaded_posters):
-                    image_format = getattr(getattr(upload, "image", None), "format", "")
-                    content_type = {
-                        "JPEG": "image/jpeg",
-                        "PNG": "image/png",
-                        "WEBP": "image/webp",
-                    }.get(image_format)
-                    SalePoster.objects.create(
-                        image_data=upload.read(),
-                        image_content_type=content_type,
-                        alt_text=alt_text,
-                        position=position,
+            current_count = SalePoster.objects.count()
+            if current_count + len(uploaded_posters) > 3:
+                if current_count >= 3:
+                    form.add_error(
+                        "posters",
+                        "The homepage already has 3 posters. Remove all posters before adding a new set.",
                     )
-            messages.success(request, f"{len(uploaded_posters)} homepage poster(s) saved.")
-            return redirect("pages:admin_sale_posters")
+                else:
+                    remaining_slots = 3 - current_count
+                    form.add_error(
+                        "posters",
+                        f"There are already {current_count} poster(s). Choose no more than {remaining_slots} more.",
+                    )
+            else:
+                with transaction.atomic():
+                    for position, upload in enumerate(uploaded_posters, start=current_count):
+                        image_format = getattr(getattr(upload, "image", None), "format", "")
+                        content_type = {
+                            "JPEG": "image/jpeg",
+                            "PNG": "image/png",
+                            "WEBP": "image/webp",
+                        }.get(image_format)
+                        SalePoster.objects.create(
+                            image_data=upload.read(),
+                            image_content_type=content_type,
+                            alt_text=alt_text,
+                            position=position,
+                        )
+                messages.success(request, f"{len(uploaded_posters)} homepage poster(s) added.")
+                return redirect("pages:admin_sale_posters")
         else:
-            form.add_error("posters", "Choose at least one image to replace the current posters.")
+            form.add_error("posters", "Choose at least one image to add to the current posters.")
 
     return render(request, "pages/admin_sale_posters.html", {
         "form": form,

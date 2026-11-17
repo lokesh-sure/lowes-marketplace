@@ -41,8 +41,8 @@ class SalePosterForm(forms.Form):
     posters = MultipleImageField(
         required=False,
         label="Poster images",
-        help_text="Choose 1 to 3 images. Saving replaces the current homepage posters.",
-        widget=MultipleFileInput(attrs={"accept": "image/jpeg,image/png,image/webp"}),
+        help_text="Choose one or more images to add. You can show up to 3 posters on the homepage.",
+        widget=MultipleFileInput(attrs={"accept": "image/jpeg,image/png,image/webp", "multiple": True}),
     )
     alt_text = forms.CharField(
         required=False,
