@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout - MarketNest</title>
+<title>Checkout - PreciousCart</title>
 <link rel="stylesheet" href="{% static 'style.css' %}">
 <style>
     .checkout-page { max-width: 1180px; margin: 36px auto 56px; padding: 0 24px; }
@@ -44,7 +44,7 @@
 </head>
 <body>
 <header>
-    <div class="logo">MarketNest</div>
+    <div class="logo">PreciousCart</div>
     <form action="{% url 'products:product_list' %}" method="get" style="display:contents"><input type="text" name="q" value="{{ request.GET.q }}" placeholder="🔍 Search products..."><button type="submit">Search</button></form>
     <a href="{% url 'home' %}"><button class="cart-btn" type="button">Home</button></a>
     <a href="{% url 'wishlist:wishlist' %}"><button class="cart-btn" type="button">❤️ Wishlist</button></a>
@@ -90,7 +90,7 @@
                 <p class="checkout-intro">Your cart is empty.</p>
             {% endfor %}
             <div class="summary-total"><span>Total</span><span>₹{{ total_amount|floatformat:2 }}</span></div>
-            <p class="summary-note">🔒 Your payment is processed securely by Razorpay. MarketNest does not store your card or UPI credentials.</p>
+            <p class="summary-note">🔒 Your payment is processed securely by Razorpay. PreciousCart does not store your card or UPI credentials.</p>
             {% if razorpay_order_id %}
                 <button type="button" class="checkout-submit" id="pay-button">Proceed to Pay · ₹{{ total_amount|floatformat:2 }}</button>
             {% else %}
@@ -103,9 +103,9 @@
 </main>
 
 <footer>
-    <p><strong>MarketNest</strong></p>
+    <p><strong>PreciousCart</strong></p>
     <p><a href="{% url 'pages:about' %}">About</a> | <a href="{% url 'pages:privacy' %}">Privacy Policy</a> | <a href="{% url 'pages:contact' %}">Contact</a> | <a href="{% url 'pages:help' %}">Help Center</a></p>
-    <p>© 2026 MarketNest. All Rights Reserved.</p>
+    <p>© 2026 PreciousCart. All Rights Reserved.</p>
 </footer>
 
 {% if razorpay_order_id %}
@@ -127,8 +127,8 @@ const checkoutOptions = {
     key: "{{ razorpay_key_id|escapejs }}",
     amount: "{{ razorpay_amount }}",
     currency: "INR",
-    name: "MarketNest",
-    description: "MarketNest Order",
+    name: "PreciousCart",
+    description: "PreciousCart Order",
     order_id: "{{ razorpay_order_id|escapejs }}",
     prefill: { name: "{{ full_name|escapejs }}", contact: "{{ phone|escapejs }}" },
     config: { display: {

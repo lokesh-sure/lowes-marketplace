@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.name }} - MarketNest</title>
+    <title>{{ product.name }} - PreciousCart</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
 
 <header>
-    <div class="logo">MarketNest</div>
+    <div class="logo">PreciousCart</div>
     <form action="{% url 'products:product_list' %}" method="get" style="display:contents">
         <input type="text" name="q" placeholder="🔍 Search products..." aria-label="Search products">
         <button type="submit">Search</button>
@@ -44,7 +44,7 @@
 
         <div style="flex:1;min-width:320px;">
             <h1>{{ product.name }} <span aria-hidden="true">❤️</span></h1>
-            <p><strong>Brand:</strong> {{ product.brand|default:"MarketNest" }}</p>
+            <p><strong>Brand:</strong> {{ product.brand|default:"PreciousCart" }}</p>
             <h2 style="color:#5B21B6;">₹{{ product.price|floatformat:2 }}</h2>
             {% if product.stock > 0 %}
                 <p style="color:#16A34A;font-weight:bold;">✅ In Stock{% if product.stock <= 10 %} — only {{ product.stock }} left{% endif %}</p>
@@ -75,7 +75,7 @@
 
             <h2>Specifications</h2>
             <table border="1" cellpadding="10" cellspacing="0">
-                <tr><th>Brand</th><td>{{ product.brand|default:"MarketNest" }}</td></tr>
+                <tr><th>Brand</th><td>{{ product.brand|default:"PreciousCart" }}</td></tr>
                 {% if product.category %}<tr><th>Category</th><td>{{ product.category.name }}</td></tr>{% endif %}
                 <tr><th>Availability</th><td>{% if product.stock > 0 %}{{ product.stock }} in stock{% else %}Unavailable{% endif %}</td></tr>
             </table>
@@ -103,7 +103,7 @@
                     {% endwith %}
                 </a>
                 <h3><a href="{% url 'products:product_detail' item.id %}">{{ item.name }}</a></h3>
-                <p>{{ item.brand|default:"MarketNest" }}</p>
+                <p>{{ item.brand|default:"PreciousCart" }}</p>
                 <p><strong>₹{{ item.price|floatformat:2 }}</strong></p>
                 <p>{% if item.stock > 0 %}✅ In Stock{% else %}Currently unavailable{% endif %}</p>
                 <a href="{% url 'products:product_detail' item.id %}"><button class="cart-btn" type="button">View Product</button></a>
@@ -115,7 +115,7 @@
 </section>
 
 <footer>
-    <p><strong>MarketNest</strong></p>
+    <p><strong>PreciousCart</strong></p>
     <p>
         <a href="{% url 'products:product_list' %}">Products</a> |
         <a href="{% url 'orders:order_list' %}">My Orders</a> |
@@ -123,7 +123,7 @@
         <a href="{% url 'wishlist:wishlist' %}">Wishlist</a> |
         <a href="{% url 'cart:view_cart' %}">Cart</a>
     </p>
-    <p>© 2026 MarketNest. All Rights Reserved.</p>
+    <p>© 2026 PreciousCart. All Rights Reserved.</p>
 </footer>
 
 <script>

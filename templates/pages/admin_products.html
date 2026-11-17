@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Manage Products - MarketNest{% endblock %}
+{% block title %}Manage Products - PreciousCart{% endblock %}
 {% block content %}<section class="mn-admin"><div class="mn-admin-head"><div><p class="mn-eyebrow">CATALOG</p><h1>Products</h1><p>Add products, update stock and prices, or remove items from your store.</p></div><a class="mn-button" href="{% url 'pages:admin_product_new' %}">＋ Add product</a></div>
 <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a class="selected" href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a></nav>
 <form class="mn-search" method="get"><input name="q" value="{{ query }}" placeholder="Search product name"><button class="mn-button" type="submit">Search</button>{% if query %}<a href="{% url 'pages:admin_products' %}">Clear</a>{% endif %}</form>

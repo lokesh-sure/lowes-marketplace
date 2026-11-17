@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketNest</title>
+    <title>PreciousCart</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <header>
-        <div class="logo">MarketNest</div>
+        <div class="logo">PreciousCart</div>
         <form action="{% url 'products:product_list' %}" method="get" style="display:contents">
             <input type="text" name="q" value="{{ request.GET.q }}" placeholder="🔍 Search products..." aria-label="Search products">
             <button type="submit">Search</button>
@@ -100,7 +100,7 @@
                         {% endwith %}
                     </a>
                     <h3><a href="{% url 'products:product_detail' product.id %}">{{ product.name }}</a></h3>
-                    <p>Brand: {{ product.brand|default:'MarketNest' }}</p>
+                    <p>Brand: {{ product.brand|default:'PreciousCart' }}</p>
                     <p>⭐⭐⭐⭐⭐</p>
                     <p style="color:green;font-weight:bold;">Featured</p>
                     <p style="color:#16a34a;">{% if product.stock > 0 %}✅ In Stock{% else %}Currently unavailable{% endif %}</p>
@@ -137,7 +137,7 @@
     </section>
 
     <footer>
-        <p><strong>MarketNest</strong></p>
+        <p><strong>PreciousCart</strong></p>
         <p>
             <a href="{% url 'pages:about' %}">About</a> |
             <a href="{% url 'pages:privacy' %}">Privacy Policy</a> |
@@ -145,7 +145,7 @@
             <a href="{% url 'pages:help' %}">Help Center</a> |
             <a href="{% url 'pages:admin_access' %}">Admin Portal</a>
         </p>
-        <p>© 2026 MarketNest. All Rights Reserved.</p>
+        <p>© 2026 PreciousCart. All Rights Reserved.</p>
     </footer>
     {% if sale_posters|length > 1 %}
         <script>

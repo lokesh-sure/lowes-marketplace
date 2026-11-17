@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cart - MarketNest</title>
+    <title>My Cart - PreciousCart</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <style>
         .cart-page { max-width: 1200px; margin: 35px auto; padding: 0 20px }
@@ -38,7 +38,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">MarketNest</div>
+        <div class="logo">PreciousCart</div>
         <form action="{% url 'products:product_list' %}" method="get" style="display:contents">
             <input type="text" name="q" placeholder="🔍 Search products..." aria-label="Search products">
             <button type="submit">Search</button>
@@ -70,7 +70,7 @@
                         {% endwith %}
                         <div>
                             <h2>{{ item.product.name }}</h2>
-                            <p>Brand: {{ item.product.brand|default:"MarketNest" }}{% if item.product.category %} | Category: {{ item.product.category.name }}{% endif %}</p>
+                            <p>Brand: {{ item.product.brand|default:"PreciousCart" }}{% if item.product.category %} | Category: {{ item.product.category.name }}{% endif %}</p>
                             {% if item.product.stock > 0 %}
                                 <p class="stock">✓ In Stock{% if item.product.stock <= 10 %} — {{ item.product.stock }} available{% endif %}</p>
                             {% else %}
@@ -135,14 +135,14 @@
     </main>
 
     <footer>
-        <p><strong>MarketNest</strong></p>
+        <p><strong>PreciousCart</strong></p>
         <p>
             <a href="{% url 'products:product_list' %}">Products</a> |
             <a href="{% url 'orders:order_list' %}">My Orders</a> |
             <a href="{% url 'accounts:profile' %}">My Account</a> |
             <a href="{% url 'wishlist:wishlist' %}">Wishlist</a>
         </p>
-        <p>© 2026 MarketNest. All Rights Reserved.</p>
+        <p>© 2026 PreciousCart. All Rights Reserved.</p>
     </footer>
 </body>
 </html>

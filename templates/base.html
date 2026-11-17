@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}MarketNest{% endblock %}</title>
+    <title>{% block title %}PreciousCart{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'style.css' %}">
 
@@ -69,7 +69,7 @@
         <div class="logo">
             <a href="{% url 'products:product_list' %}"
                style="color: inherit; text-decoration: none;">
-                MarketNest
+                PreciousCart
             </a>
         </div>
 
@@ -111,7 +111,7 @@
             <a href="{% url 'pages:help' %}">Help Center</a> |
             <a href="{% url 'pages:admin_access' %}">Admin Portal</a>
         </p>
-        <p>&copy; 2026 MarketNest. All Rights Reserved.</p>
+        <p>&copy; 2026 PreciousCart. All Rights Reserved.</p>
     </footer>
 
     {% block extra_js %}{% endblock %}

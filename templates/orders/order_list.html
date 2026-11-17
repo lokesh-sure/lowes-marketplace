@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders - MarketNest</title>
+    <title>My Orders - PreciousCart</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
 
@@ -190,7 +190,7 @@
 <body>
 
 <header>
-    <div class="logo">MarketNest</div>
+    <div class="logo">PreciousCart</div>
 
     <form action="/products/" method="get" style="display:contents"><input type="text" name="q" placeholder="🔍 Search products..."><button type="submit">Search</button></form>
 
@@ -238,7 +238,7 @@
             {% endwith %}
             <div>
                 <h2>{{ item.product.name }}</h2>
-                <p>Brand: {{ item.product.brand|default:'MarketNest' }}</p>
+                <p>Brand: {{ item.product.brand|default:'PreciousCart' }}</p>
                 <p class="status">{{ order.status }}</p>
                 <p><strong>Payment:</strong> {% if order.is_paid %}Paid{% else %}Not Paid{% endif %}</p>
                 <p><strong>Quantity:</strong> {{ item.quantity }}</p>
@@ -271,7 +271,7 @@
 
 <footer>
 
-    <p><strong>MarketNest</strong></p>
+    <p><strong>PreciousCart</strong></p>
 
     <p>
         <a href="/pages/about/">About</a> |
@@ -280,7 +280,7 @@
         <a href="/pages/help/">Help Center</a>
     </p>
 
-    <p>© 2026 MarketNest. All Rights Reserved.</p>
+    <p>© 2026 PreciousCart. All Rights Reserved.</p>
 
 </footer>
 

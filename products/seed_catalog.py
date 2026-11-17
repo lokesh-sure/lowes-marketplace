@@ -65,7 +65,7 @@ for name, brand, category_name, price, stock in products:
         defaults={
             "category": category,
             "price": price,
-            "description": f"{brand} {name} - MarketNest demo product.",
+            "description": f"{brand} {name} - PreciousCart demo product.",
             "stock": stock,
         },
     )

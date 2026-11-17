@@ -99,7 +99,7 @@
       "category": 1,
       "brand": "Samsung",
       "price": "45999.00",
-      "description": "Samsung Galaxy Demo Phone X1 - MarketNest demo product.",
+      "description": "Samsung Galaxy Demo Phone X1 - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -111,7 +111,7 @@
       "category": 1,
       "brand": "Sony",
       "price": "64999.00",
-      "description": "Sony Bravia Demo Smart TV - MarketNest demo product.",
+      "description": "Sony Bravia Demo Smart TV - PreciousCart demo product.",
       "stock": 15
     }
   },
@@ -123,7 +123,7 @@
       "category": 1,
       "brand": "LG",
       "price": "72999.00",
-      "description": "LG OLED Demo TV 55 - MarketNest demo product.",
+      "description": "LG OLED Demo TV 55 - PreciousCart demo product.",
       "stock": 12
     }
   },
@@ -135,7 +135,7 @@
       "category": 1,
       "brand": "Sony",
       "price": "8999.00",
-      "description": "Sony Bluetooth Demo Speaker - MarketNest demo product.",
+      "description": "Sony Bluetooth Demo Speaker - PreciousCart demo product.",
       "stock": 25
     }
   },
@@ -147,7 +147,7 @@
       "category": 1,
       "brand": "JBL",
       "price": "5999.00",
-      "description": "JBL Wireless Demo Headphones - MarketNest demo product.",
+      "description": "JBL Wireless Demo Headphones - PreciousCart demo product.",
       "stock": 30
     }
   },
@@ -159,7 +159,7 @@
       "category": 3,
       "brand": "LG",
       "price": "48999.00",
-      "description": "LG Frost Free Demo Refrigerator - MarketNest demo product.",
+      "description": "LG Frost Free Demo Refrigerator - PreciousCart demo product.",
       "stock": 10
     }
   },
@@ -171,7 +171,7 @@
       "category": 3,
       "brand": "Samsung",
       "price": "55999.00",
-      "description": "Samsung Double Door Demo Refrigerator - MarketNest demo product.",
+      "description": "Samsung Double Door Demo Refrigerator - PreciousCart demo product.",
       "stock": 10
     }
   },
@@ -183,7 +183,7 @@
       "category": 3,
       "brand": "Whirlpool",
       "price": "32999.00",
-      "description": "Whirlpool Demo Washing Machine 7KG - MarketNest demo product.",
+      "description": "Whirlpool Demo Washing Machine 7KG - PreciousCart demo product.",
       "stock": 12
     }
   },
@@ -195,7 +195,7 @@
       "category": 3,
       "brand": "Voltas",
       "price": "41999.00",
-      "description": "Voltas Demo Air Conditioner 1.5T - MarketNest demo product.",
+      "description": "Voltas Demo Air Conditioner 1.5T - PreciousCart demo product.",
       "stock": 8
     }
   },
@@ -207,7 +207,7 @@
       "category": 3,
       "brand": "Bajaj",
       "price": "4999.00",
-      "description": "Bajaj Demo Mixer Grinder - MarketNest demo product.",
+      "description": "Bajaj Demo Mixer Grinder - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -219,7 +219,7 @@
       "category": 4,
       "brand": "Apple",
       "price": "79999.00",
-      "description": "Apple Demo Smartphone Pro - MarketNest demo product.",
+      "description": "Apple Demo Smartphone Pro - PreciousCart demo product.",
       "stock": 10
     }
   },
@@ -231,7 +231,7 @@
       "category": 4,
       "brand": "OnePlus",
       "price": "39999.00",
-      "description": "OnePlus Demo Smartphone A1 - MarketNest demo product.",
+      "description": "OnePlus Demo Smartphone A1 - PreciousCart demo product.",
       "stock": 15
     }
   },
@@ -243,7 +243,7 @@
       "category": 4,
       "brand": "HP",
       "price": "62999.00",
-      "description": "HP Demo Laptop 14 - MarketNest demo product.",
+      "description": "HP Demo Laptop 14 - PreciousCart demo product.",
       "stock": 10
     }
   },
@@ -255,7 +255,7 @@
       "category": 4,
       "brand": "Dell",
       "price": "74999.00",
-      "description": "Dell Demo Laptop Pro - MarketNest demo product.",
+      "description": "Dell Demo Laptop Pro - PreciousCart demo product.",
       "stock": 8
     }
   },
@@ -267,7 +267,7 @@
       "category": 4,
       "brand": "Lenovo",
       "price": "89999.00",
-      "description": "Lenovo Demo Gaming Laptop - MarketNest demo product.",
+      "description": "Lenovo Demo Gaming Laptop - PreciousCart demo product.",
       "stock": 6
     }
   },
@@ -279,7 +279,7 @@
       "category": 5,
       "brand": "Wakefit",
       "price": "8999.00",
-      "description": "Wakefit Demo Office Chair - MarketNest demo product.",
+      "description": "Wakefit Demo Office Chair - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -291,7 +291,7 @@
       "category": 5,
       "brand": "Urban Ladder",
       "price": "12999.00",
-      "description": "Urban Ladder Demo Study Table - MarketNest demo product.",
+      "description": "Urban Ladder Demo Study Table - PreciousCart demo product.",
       "stock": 15
     }
   },
@@ -303,7 +303,7 @@
       "category": 5,
       "brand": "Wakefit",
       "price": "29999.00",
-      "description": "Wakefit Demo King Bed - MarketNest demo product.",
+      "description": "Wakefit Demo King Bed - PreciousCart demo product.",
       "stock": 8
     }
   },
@@ -315,7 +315,7 @@
       "category": 5,
       "brand": "Urban Ladder",
       "price": "9999.00",
-      "description": "Urban Ladder Demo Bookshelf - MarketNest demo product.",
+      "description": "Urban Ladder Demo Bookshelf - PreciousCart demo product.",
       "stock": 12
     }
   },
@@ -327,7 +327,7 @@
       "category": 5,
       "brand": "Pepperfry",
       "price": "34999.00",
-      "description": "Pepperfry Demo Sofa Set - MarketNest demo product.",
+      "description": "Pepperfry Demo Sofa Set - PreciousCart demo product.",
       "stock": 7
     }
   },
@@ -339,7 +339,7 @@
       "category": 6,
       "brand": "Philips",
       "price": "8999.00",
-      "description": "Philips Demo Air Fryer - MarketNest demo product.",
+      "description": "Philips Demo Air Fryer - PreciousCart demo product.",
       "stock": 15
     }
   },
@@ -351,7 +351,7 @@
       "category": 6,
       "brand": "Prestige",
       "price": "1999.00",
-      "description": "Prestige Demo Electric Kettle - MarketNest demo product.",
+      "description": "Prestige Demo Electric Kettle - PreciousCart demo product.",
       "stock": 25
     }
   },
@@ -363,7 +363,7 @@
       "category": 6,
       "brand": "Prestige",
       "price": "2999.00",
-      "description": "Prestige Demo Induction Cooktop - MarketNest demo product.",
+      "description": "Prestige Demo Induction Cooktop - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -375,7 +375,7 @@
       "category": 6,
       "brand": "Philips",
       "price": "6999.00",
-      "description": "Philips Demo Coffee Maker - MarketNest demo product.",
+      "description": "Philips Demo Coffee Maker - PreciousCart demo product.",
       "stock": 12
     }
   },
@@ -387,7 +387,7 @@
       "category": 6,
       "brand": "Milton",
       "price": "2499.00",
-      "description": "Milton Demo Dinner Set - MarketNest demo product.",
+      "description": "Milton Demo Dinner Set - PreciousCart demo product.",
       "stock": 25
     }
   },
@@ -399,7 +399,7 @@
       "category": 7,
       "brand": "Nike",
       "price": "7999.00",
-      "description": "Nike Demo Running Shoes - MarketNest demo product.",
+      "description": "Nike Demo Running Shoes - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -411,7 +411,7 @@
       "category": 7,
       "brand": "Adidas",
       "price": "6999.00",
-      "description": "Adidas Demo Sports Shoes - MarketNest demo product.",
+      "description": "Adidas Demo Sports Shoes - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -423,7 +423,7 @@
       "category": 7,
       "brand": "Puma",
       "price": "4999.00",
-      "description": "Puma Demo Casual Sneakers - MarketNest demo product.",
+      "description": "Puma Demo Casual Sneakers - PreciousCart demo product.",
       "stock": 25
     }
   },
@@ -435,7 +435,7 @@
       "category": 7,
       "brand": "Adidas",
       "price": "2999.00",
-      "description": "Adidas Demo Hoodie - MarketNest demo product.",
+      "description": "Adidas Demo Hoodie - PreciousCart demo product.",
       "stock": 30
     }
   },
@@ -447,7 +447,7 @@
       "category": 7,
       "brand": "Puma",
       "price": "2499.00",
-      "description": "Puma Demo Backpack - MarketNest demo product.",
+      "description": "Puma Demo Backpack - PreciousCart demo product.",
       "stock": 25
     }
   },
@@ -459,7 +459,7 @@
       "category": 8,
       "brand": "Nivea",
       "price": "499.00",
-      "description": "Nivea Demo Face Wash - MarketNest demo product.",
+      "description": "Nivea Demo Face Wash - PreciousCart demo product.",
       "stock": 40
     }
   },
@@ -471,7 +471,7 @@
       "category": 8,
       "brand": "Nivea",
       "price": "699.00",
-      "description": "Nivea Demo Moisturizer - MarketNest demo product.",
+      "description": "Nivea Demo Moisturizer - PreciousCart demo product.",
       "stock": 35
     }
   },
@@ -483,7 +483,7 @@
       "category": 8,
       "brand": "Philips",
       "price": "2499.00",
-      "description": "Philips Demo Hair Dryer - MarketNest demo product.",
+      "description": "Philips Demo Hair Dryer - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -495,7 +495,7 @@
       "category": 8,
       "brand": "Philips",
       "price": "1999.00",
-      "description": "Philips Demo Electric Trimmer - MarketNest demo product.",
+      "description": "Philips Demo Electric Trimmer - PreciousCart demo product.",
       "stock": 25
     }
   },
@@ -507,7 +507,7 @@
       "category": 8,
       "brand": "Philips",
       "price": "3999.00",
-      "description": "Philips Demo Grooming Kit - MarketNest demo product.",
+      "description": "Philips Demo Grooming Kit - PreciousCart demo product.",
       "stock": 15
     }
   },
@@ -519,7 +519,7 @@
       "category": 9,
       "brand": "Adidas",
       "price": "1999.00",
-      "description": "Adidas Demo Football - MarketNest demo product.",
+      "description": "Adidas Demo Football - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -531,7 +531,7 @@
       "category": 9,
       "brand": "SS",
       "price": "4999.00",
-      "description": "SS Demo Cricket Bat - MarketNest demo product.",
+      "description": "SS Demo Cricket Bat - PreciousCart demo product.",
       "stock": 12
     }
   },
@@ -543,7 +543,7 @@
       "category": 9,
       "brand": "Decathlon",
       "price": "999.00",
-      "description": "Decathlon Demo Yoga Mat - MarketNest demo product.",
+      "description": "Decathlon Demo Yoga Mat - PreciousCart demo product.",
       "stock": 30
     }
   },
@@ -555,7 +555,7 @@
       "category": 9,
       "brand": "Decathlon",
       "price": "2999.00",
-      "description": "Decathlon Demo Dumbbell Set - MarketNest demo product.",
+      "description": "Decathlon Demo Dumbbell Set - PreciousCart demo product.",
       "stock": 20
     }
   },
@@ -567,7 +567,7 @@
       "category": 9,
       "brand": "Decathlon",
       "price": "14999.00",
-      "description": "Decathlon Demo Fitness Cycle - MarketNest demo product.",
+      "description": "Decathlon Demo Fitness Cycle - PreciousCart demo product.",
       "stock": 8
     }
   },

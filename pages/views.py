@@ -188,7 +188,7 @@ def contact(request):
         else:
             try:
                 send_mail(
-                    subject=f"MarketNest contact message from {full_name}",
+                    subject=f"PreciousCart contact message from {full_name}",
                     message=f"Name: {full_name}\nEmail: {email}\nPhone: {phone}\n\n{body}",
                     from_email=None,
                     recipient_list=["support@marketnest.com"],
@@ -197,7 +197,7 @@ def contact(request):
             except Exception:
                 messages.error(request, "We could not submit your message. Please try again later.")
             else:
-                messages.success(request, "Thank you. Your message has been submitted to MarketNest support.")
+                messages.success(request, "Thank you. Your message has been submitted to PreciousCart support.")
                 return redirect("pages:contact")
 
     return render(request, "pages/contact.html")
