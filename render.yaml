@@ -1,6 +1,8 @@
 services:
   - type: web
     name: marketnest-client-preview
+    domains:
+      - preciouscart.in
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate --noinput && python manage.py seed_demo_catalog && python manage.py ensure_demo_admin && python manage.py import_local_admin
