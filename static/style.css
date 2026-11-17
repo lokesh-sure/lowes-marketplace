@@ -158,10 +158,10 @@ button:hover {
     box-shadow: 0 12px 28px rgba(0, 0, 0, .18)
 }
 
-.mn-sale-carousel { position: relative; height: min(55vw, 500px); min-height: 240px; padding: 10px; overflow: hidden; display: grid; place-items: center; background: linear-gradient(135deg, #5b21b6, #8b5cf6); }
-.mn-sale-slide { display: none; width: 100%; height: 100%; place-items: center; }
-.mn-sale-slide.is-active { display: grid; }
-.mn-sale-poster { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
+.mn-sale-carousel { position: relative; height: auto; min-height: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #5b21b6, #8b5cf6); }
+.mn-sale-slide { display: none; width: 100%; height: auto; align-items: center; justify-content: center; }
+.mn-sale-slide.is-active { display: flex; }
+.mn-sale-poster { display: block; width: 100%; height: auto; max-height: min(70vh, 560px); object-fit: contain; object-position: center; border-radius: 12px; }
 .mn-sale-controls { position: absolute; right: 16px; bottom: 16px; left: 16px; display: flex; align-items: center; justify-content: space-between; pointer-events: none; }
 .mn-sale-arrow, .mn-sale-dot { pointer-events: auto; }
 .mn-sale-arrow { width: 40px; height: 40px; padding: 0; border: 1px solid rgba(255,255,255,.8); border-radius: 50%; color: #fff; background: rgba(31,24,50,.62); font-size: 28px; line-height: 1; }
@@ -314,7 +314,8 @@ footer {
         padding: 60px 20px
     }
 
-    .mn-sale-carousel { height: 62vw; min-height: 190px; margin: 15px; padding: 6px; }
+    .mn-sale-carousel { height: auto; min-height: 0; margin: 15px; padding: 0; }
+    .mn-sale-poster { max-height: 65vh; }
     .mn-sale-controls { right: 10px; bottom: 10px; left: 10px; }
 
     .hero h1 {
