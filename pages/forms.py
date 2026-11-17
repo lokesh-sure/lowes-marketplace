@@ -20,6 +20,22 @@ class ProductImageForm(forms.Form):
     image = forms.ImageField(required=False, help_text="Optional. Choose one product image.")
 
 
+class CategoryImageForm(forms.Form):
+    image = forms.ImageField(
+        required=True,
+        label="Category image",
+        widget=forms.ClearableFileInput(attrs={"accept": "image/jpeg,image/png,image/webp"}),
+    )
+
+    def clean_image(self):
+        image = self.cleaned_data["image"]
+        if image.size > 8 * 1024 * 1024:
+            raise forms.ValidationError("Choose an image that is 8 MB or smaller.")
+        if getattr(getattr(image, "image", None), "format", "") not in {"JPEG", "PNG", "WEBP"}:
+            raise forms.ValidationError("Use a JPG, PNG, or WebP image.")
+        return image
+
+
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Category Images - PreciousCart{% endblock %}
+{% block content %}
+<section class="mn-admin mn-category-admin">
+  <div class="mn-admin-head">
+    <div><p class="mn-eyebrow">HOMEPAGE CONTENT</p><h1>Category images</h1><p>Choose or replace the picture shown for each shop category.</p></div>
+    <a class="mn-button mn-button-light" href="{% url 'home' %}" target="_blank" rel="noopener">View homepage</a>
+  </div>
+  <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a><a class="selected" href="{% url 'pages:admin_category_images' %}">Category images</a><a href="{% url 'pages:admin_sale_posters' %}">Sale posters</a></nav>
+
+  <div class="mn-sale-admin-intro">
+    <h2>Shop by category</h2>
+    <p>Upload a JPG, PNG, or WebP image up to 8 MB. You can replace or remove a category image at any time.</p>
+  </div>
+
+  <div class="mn-category-admin-grid">
+    {% for category in categories %}
+      <article class="mn-category-admin-card">
+        <div class="mn-category-admin-preview">
+          {% if category.image_content_type %}
+            <img src="{% url 'pages:category_image' category.id %}" alt="{{ category.name }}">
+          {% else %}
+            <span aria-hidden="true">{{ category.fallback_icon }}</span>
+          {% endif %}
+        </div>
+        <div class="mn-category-admin-content">
+          <h3>{{ category.name|title }}</h3>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="category_id" value="{{ category.id }}">
+            <label for="category-image-{{ category.id }}">{% if category.image_content_type %}Replace image{% else %}Choose image{% endif %}</label>
+            <input id="category-image-{{ category.id }}" type="file" name="image" accept="image/jpeg,image/png,image/webp" required>
+            {% if error_category_id == category.id %}
+              {% for error in image_form.image.errors %}<small class="mn-error">{{ error }}</small>{% endfor %}
+            {% endif %}
+            <button class="mn-button" type="submit">Save image</button>
+          </form>
+          {% if category.image_content_type %}
+            <form method="post" onsubmit="return confirm('Remove this category image?');">
+              {% csrf_token %}
+              <input type="hidden" name="category_id" value="{{ category.id }}">
+              <input type="hidden" name="action" value="remove">
+              <button class="mn-link-danger" type="submit">Remove image</button>
+            </form>
+          {% endif %}
+        </div>
+      </article>
+    {% empty %}
+      <div class="mn-poster-empty"><strong>No categories found</strong><span>Add categories through product setup first.</span></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

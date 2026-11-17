@@ -13,7 +13,7 @@ def product_list(request):
     max_price = request.GET.get("max_price", "").strip()
 
     products = Product.objects.all().select_related("category")
-    categories = Category.objects.all().order_by("name")
+    categories = Category.objects.only("id", "name", "image_content_type").order_by("name")
 
     brands = (
         Product.objects

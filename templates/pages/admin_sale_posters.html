@@ -6,7 +6,7 @@
     <div><p class="mn-eyebrow">HOMEPAGE CONTENT</p><h1>Sale posters</h1><p>Upload the images for your current festival or seasonal sale.</p></div>
     <a class="mn-button mn-button-light" href="{% url 'home' %}" target="_blank" rel="noopener">View homepage</a>
   </div>
-  <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a><a class="selected" href="{% url 'pages:admin_sale_posters' %}">Sale posters</a></nav>
+  <nav class="mn-admin-nav"><a href="{% url 'pages:admin_dashboard' %}">Overview</a><a href="{% url 'pages:admin_products' %}">Products</a><a href="{% url 'pages:admin_customers' %}">Customers</a><a href="{% url 'pages:admin_category_images' %}">Category images</a><a class="selected" href="{% url 'pages:admin_sale_posters' %}">Sale posters</a></nav>
 
   <div class="mn-sale-admin-intro">
     <h2>Current homepage posters <span>{{ posters|length }} of 3</span></h2>

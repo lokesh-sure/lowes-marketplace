@@ -3,11 +3,11 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.core.mail import send_mail
 from django.db import transaction
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from products.models import Product, ProductImage, Category
-from .forms import ProductForm, ProductImageForm, CustomerEditForm, SalePosterForm
+from .forms import ProductForm, ProductImageForm, CustomerEditForm, SalePosterForm, CategoryImageForm
 from .models import SalePoster
 
 User = get_user_model()
@@ -115,6 +115,58 @@ def admin_sale_posters(request):
 def sale_poster_image(request, poster_id):
     poster = get_object_or_404(SalePoster, pk=poster_id)
     response = HttpResponse(poster.image_data, content_type=poster.image_content_type)
+    response["Cache-Control"] = "public, max-age=3600"
+    response["X-Content-Type-Options"] = "nosniff"
+    return response
+
+
+@staff_required
+def admin_category_images(request):
+    categories = Category.objects.only("id", "name", "image_content_type").order_by("name")
+    image_form = CategoryImageForm()
+
+    if request.method == "POST":
+        category = get_object_or_404(Category, pk=request.POST.get("category_id"))
+        action = request.POST.get("action")
+        if action == "remove":
+            category.image_data = None
+            category.image_content_type = ""
+            category.save(update_fields=["image_data", "image_content_type"])
+            messages.success(request, f"The {category.name} category image was removed.")
+            return redirect("pages:admin_category_images")
+
+        image_form = CategoryImageForm(request.POST, request.FILES)
+        if image_form.is_valid():
+            image = image_form.cleaned_data["image"]
+            image_format = getattr(getattr(image, "image", None), "format", "")
+            category.image_data = image.read()
+            category.image_content_type = {
+                "JPEG": "image/jpeg",
+                "PNG": "image/png",
+                "WEBP": "image/webp",
+            }[image_format]
+            category.save(update_fields=["image_data", "image_content_type"])
+            messages.success(request, f"The {category.name} category image was saved.")
+            return redirect("pages:admin_category_images")
+
+        return render(request, "pages/admin_category_images.html", {
+            "categories": categories,
+            "image_form": image_form,
+            "error_category_id": category.id,
+        })
+
+    return render(request, "pages/admin_category_images.html", {
+        "categories": categories,
+        "image_form": image_form,
+        "error_category_id": None,
+    })
+
+
+def category_image(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    if not category.image_data or not category.image_content_type:
+        raise Http404("This category does not have a custom image.")
+    response = HttpResponse(category.image_data, content_type=category.image_content_type)
     response["Cache-Control"] = "public, max-age=3600"
     response["X-Content-Type-Options"] = "nosniff"
     return response

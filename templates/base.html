@@ -78,14 +78,14 @@
             <a href="{% url 'products:product_list' %}">Products</a>
             <a href="/cart/">Cart</a>
             <a href="/wishlist/">Wishlist</a>
-            <a href="{% url 'pages:admin_access' %}">Admin</a>
-
             {% if user.is_authenticated %}
                 <a href="{% url 'accounts:profile' %}">My Profile</a>
                 <a href="/orders/">My Orders</a>
                 <a href="/accounts/logout/">Logout</a>
+                <a href="{% url 'pages:admin_access' %}">Admin</a>
             {% else %}
                 <a href="/accounts/login/">Login</a>
+                <a href="{% url 'pages:admin_access' %}">Admin</a>
                 <a href="/accounts/register/">Register</a>
             {% endif %}
         </nav>

@@ -21,7 +21,11 @@
             <a href="{% url 'accounts:logout' %}"><button class="cart-btn" type="button">Logout</button></a>
         {% else %}
             <a href="{% url 'accounts:login' %}"><button class="cart-btn" type="button">Login</button></a>
+            <a href="{% url 'pages:admin_access' %}"><button class="cart-btn" type="button">Admin</button></a>
             <a href="{% url 'accounts:register' %}"><button class="cart-btn" type="button">Register</button></a>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'pages:admin_access' %}"><button class="cart-btn" type="button">Admin</button></a>
         {% endif %}
     </header>
 
@@ -35,7 +39,6 @@
         <a href="{% url 'products:product_list' %}">Furniture</a>
         <a href="{% url 'products:product_list' %}">Appliances</a>
         <a href="{% url 'pages:contact' %}">Contact</a>
-        <a href="{% url 'pages:admin_access' %}">Admin</a>
     </nav>
 
     {% if sale_posters %}
@@ -69,13 +72,21 @@
 
     <section class="categories">
         <h2>🛍 Shop By Category</h2>
-        <div class="category-list">
-            <a class="category" href="{% url 'products:product_list' %}">Appliances</a>
-            <a class="category" href="{% url 'products:product_list' %}">Electronics</a>
-            <a class="category" href="{% url 'products:product_list' %}">Furniture</a>
-            <a class="category" href="{% url 'products:product_list' %}">Fashion</a>
-            <a class="category" href="{% url 'products:product_list' %}">Kitchen</a>
-            <a class="category" href="{% url 'products:product_list' %}">Mobiles</a>
+        <div class="category-grid">
+            {% for category in categories %}
+                <a class="category-tile" href="{% url 'products:product_list' %}?category={{ category.id }}">
+                    <span class="category-image-wrap">
+                        {% if category.image_content_type %}
+                            <img src="{% url 'pages:category_image' category.id %}" alt="{{ category.name }}">
+                        {% else %}
+                            <span class="category-image-fallback" aria-hidden="true">{{ category.fallback_icon }}</span>
+                        {% endif %}
+                    </span>
+                    <span class="category-label">{{ category.name|title }}</span>
+                </a>
+            {% empty %}
+                <p>Categories will appear here soon.</p>
+            {% endfor %}
         </div>
     </section>
 

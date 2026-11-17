@@ -5,6 +5,27 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    image_data = models.BinaryField(blank=True, null=True)
+    image_content_type = models.CharField(max_length=32, blank=True)
+
+    @property
+    def fallback_icon(self):
+        name = self.name.lower()
+        for key, icon in (
+            ("furniture", "🛋️"),
+            ("electronics", "📺"),
+            ("appliance", "🧺"),
+            ("mobile", "📱"),
+            ("computer", "💻"),
+            ("kitchen", "🍳"),
+            ("fashion", "👗"),
+            ("beauty", "✨"),
+            ("sports", "⚽"),
+            ("fitness", "🏋️"),
+        ):
+            if key in name:
+                return icon
+        return "🛍️"
 
     def __str__(self):
         return self.name
